@@ -17,6 +17,12 @@ Use the following URL: `{YOUR-DOMAIN}/ost_wbs/?`
 In all requests, the API key that was created in the OSTicket system must be sent to authenticate the user.<br>
 Using the following format:
 
+| Option | Type | Mandatory | Description
+| --- | --- |  :-: |  --- |
+| `apikey`| string | ✅ | Official API-Key generated in OSTicket System |
+
+<b>Example</b>:
+
 `{YOUR-DOMAIN}/ost_wbs/?apikey=XXXXXX...`
 
 ## TICKETS
