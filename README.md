@@ -5,6 +5,14 @@
  The purpose of this API is to help the community and leverage the use of OSTicket.
 </p>
 
+
+## Tested Versions
+This api was tested in the following versions:
+
+| Version |
+| --- |
+| `v1.14.3`|
+
 ## How to Use
 To use OSTicket Unofficial API you have to place the `ost_wbs` directory in the root of OSTicket server.<br>
 Then, go to `ost_wbs > config.php` and change the DB credentials.
