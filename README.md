@@ -26,7 +26,7 @@ In all requests, the API key that was created in the OSTicket system must be sen
 
 ## Ticket Info
 
-### 🔘 Specific Number/ID
+### 🔘 Specific Ticket
 You can fetch all info from a specific ticket using the ID or ID Number, for example:
 
 `{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=specific&parameters={TICKET-ID/TICKET-NUMBER}`
@@ -36,3 +36,42 @@ You can fetch all info from a specific ticket using the ID or ID Number, for exa
 | `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
 | `parameters`| `int` or `string` | `ID` or `Number` | ✅ | Indicates specific ID or Number |
+
+
+### 🔘 By Status
+You can fetch all tickets based on the current status, for example:
+
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=status&parameters={TICKET-STATUS-ID}`
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
+| `sort`|  `string` | `status` | ✅ | Indicates the type of search |
+| `parameters`| `int` or `string` | `Ticket Status ID` | ✅ | Ticket status ID you want to search for |
+
+Available ticket status:
+
+| Option | Name |
+| --- | --- |
+| `0`| `1` |
+| `1`| `Open` |
+| `2`|  `Resolved` |
+| `3`| `Closed` |
+| `4`| `Archived` |
+| `5`|  `Deleted` |
+| `6`| `On Going` |
+| `7`| `Pending` |
+
+### 🔘 Between Dates
+You can fetch all tickets by creation between two given dates, for example:
+
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=date&parameters={START-DATEtoEND-DATE}`
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
+| `sort`|  `string` | `date` | ✅ | Indicates the type of search |
+| `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all tickets will be fetched |
+
