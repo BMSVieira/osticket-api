@@ -15,7 +15,6 @@ Use the following URL: `{YOUR-DOMAIN}/ost_wbs/?`
 
 ## Authentication
 In all requests, the API key that was created in the OSTicket system must be sent to authenticate the user.<br>
-Using the following format:
 
 | Option | Type | Mandatory | Description
 | --- | --- |  :-: |  --- |
@@ -23,19 +22,17 @@ Using the following format:
 
 <b>Example</b>:
 
-`{YOUR-DOMAIN}/ost_wbs/?apikey=XXXXXX...`
+`{YOUR-DOMAIN}/ost_wbs/?apikey={API-KEY}`
 
-## TICKETS
+## Ticket Info
 
-You can fetch tickets from the database using the following URL:
+### 🔘 Specific Number/ID
+You can fetch all info from a specific ticket using the ID or ID Number, for example:
 
-```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={APIKEY}&query=ticket&condition=all&parameters=6
-```
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=specific&parameters={TICKET-ID/TICKET-NUMBER}`
 
-| Event | Mandatory | Info
-| --- | --- |  --- |
-| `apikey`| ✅ | API KEY GENERATED |
-| `query`|  ✅ | `ticket` |
-| `condition`|  ✅ | `all`, `specific` |
-| `parameters`|  ✅ | `ticketID/Number` |
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
+| `parameters`| `int` or `string` | `ID` or `Number` | ✅ | Indicates specific ID or Number |
