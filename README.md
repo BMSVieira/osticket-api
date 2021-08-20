@@ -43,10 +43,11 @@ You can fetch all info from a specific ticket using the ID or ID Number, for exa
 | --- | --- |  :-: | :-: |  --- |
 | `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
 | `parameters`| `int` or `string` | `ID` or `Number` | ✅ | Indicates specific ID or Number |
 
 
-### 🔘 By Status
+### 🔘 By Status 
 You can fetch all tickets based on the current status, for example:
 
 `{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=status&parameters={TICKET-STATUS-ID}`
@@ -55,6 +56,7 @@ You can fetch all tickets based on the current status, for example:
 | --- | --- |  :-: | :-: |  --- |
 | `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
 | `sort`|  `string` | `status` | ✅ | Indicates the type of search |
 | `parameters`| `int` or `string` | `Ticket Status ID` | ✅ | Ticket status ID you want to search for |
 
@@ -80,6 +82,20 @@ You can fetch all tickets by creation between two given dates, for example:
 | --- | --- |  :-: | :-: |  --- |
 | `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
 | `sort`|  `string` | `date` | ✅ | Indicates the type of search |
 | `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all tickets will be fetched |
+
+### 🔘 Between Dates by Status
+You can fetch all tickets by creation between two given dates and by status, for example:
+
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=statusbydate&parameters={START-DATEtoEND-DATE},{TICKET-STATUS-ID}`
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
+| `sort`|  `string` | `statusbydate` | ✅ | Indicates the type of search |
+| `parameters`| `string` | `1990-01-01to2000-01-01`,`2` | ✅ | Date interval and status by wich all tickets will be fetched |
 
