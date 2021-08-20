@@ -8,11 +8,13 @@
 
 
 ## Tested Versions
-This api was tested in the following versions:
+This api was tested in the following OST versions:
 
 | Version |
 | --- |
+| `v1.15.3.1` Latest Release|
 | `v1.14.3`|
+
 
 ## How to Use
 To use OSTicket Unofficial API you have to place the `ost_wbs` directory in the root of OSTicket server.<br>
