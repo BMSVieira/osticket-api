@@ -2,7 +2,7 @@
 
 ####################################################################################
 
-# OSTicket Webservice v0.0.1
+# OSTicket Webservice v0.1.0
 # The purpose of this web service is to help the community and leverage the use of OSTicket.
 
 # Developed by: Bruno Vieira 

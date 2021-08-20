@@ -6,7 +6,6 @@ class apiKey
         // Connect Database
         $Dbobj = new DBConnection(); 
         $mysqli = $Dbobj->getDBConnect();
-
         $ObterTickets = $mysqli->query("SELECT * FROM ost_api_key WHERE apiKey = '$key'");
         $PrintTickets = $ObterTickets->fetch_object(); 
         $CountR = $ObterTickets->num_rows;

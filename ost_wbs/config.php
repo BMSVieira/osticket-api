@@ -1,17 +1,12 @@
 <?php
-
-######################################################################################################
-# OSTicket API Config File
-# The purpose of this web service is to help the community and leverage the use of OSTicket.
-
-# Developed by: Bruno Vieira 
-######################################################################################################
+// Turn off all error reporting
+error_reporting(0);
 
 // Database Credentials
-define('DBHOST','localhost');
-define('DBNAME','osticket_db');
-define('DBUSER','osticket_user');
-define('DBPASS','MIest2U#');
+define('DBHOST','{DBHOST}');
+define('DBNAME','{DBNAME}');
+define('DBUSER','{DBUSER}');
+define('DBPASS','{DBPASS}');
 
 class DBConnection{
     function getDBConnect(){
