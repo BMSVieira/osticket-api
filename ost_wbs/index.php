@@ -14,6 +14,7 @@ header('Content-Type: application/json; charset: ut-8');
 
 // Require classes
 require_once 'config.php';
+require_once 'classes/helper_class.php';
 require_once 'classes/apikey_class.php';
 require_once 'classes/ticket_class.php';
 
@@ -28,9 +29,15 @@ class OSTicketAPI
         $method = $request['condition'];
     
         // If no parameter, goes "none"
-        $parameters = array("id" => "none");
-        $parameters = array("id" => $request['parameters']);
-        
+        $sort = "none";
+        $sort = $request['sort'];
+
+        // If no parameter, goes "none"
+        $parameters = "none";
+        $parameters = explode(",", $request['parameters']);
+
+        $fparams = array("sort" => $sort, "parameters" => $parameters);
+
         try {
 
             // Check API Key
@@ -44,7 +51,7 @@ class OSTicketAPI
                         $time_start = microtime(true); 
 
                         // Call classe and method
-                        $return = call_user_func_array(array(new $classe, $method), $parameters); 
+                        $return = call_user_func_array(array(new $classe, $method), array($fparams)); 
 
                         // End track execution time
                         $time_end = microtime(true);
