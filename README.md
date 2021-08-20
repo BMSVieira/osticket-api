@@ -62,7 +62,7 @@ Available ticket status:
 
 | Option | Name |
 | --- | --- |
-| `0`| `All` not necessarily a "state" but returns all ticket in the DB regardless of state |
+| `0`| `All` not necessarily a "state" but returns all tickets in the DB regardless of state |
 | `1`| `Open` |
 | `2`|  `Resolved` |
 | `3`| `Closed` |
