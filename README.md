@@ -18,7 +18,7 @@ This api was tested in the following OST versions:
 
 ## How to Use
 To use OSTicket Unofficial API you have to place the `ost_wbs` directory in the root of OSTicket server.<br>
-Then, go to `ost_wbs > config.php` and change the DB credentials.
+Then, go to `ost_wbs > config.php` and change the DB credentials and the DB table prefix.
 
 Use the following URL: `{YOUR-DOMAIN}/ost_wbs/?`
 
