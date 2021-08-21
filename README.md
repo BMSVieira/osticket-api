@@ -1,5 +1,5 @@
 <p align="center">
- <img width="400" src="images/logo.png?token=AGGN6WZMSPUPDIMJ3OVVJADBDWSNQ">
+ <img width="400" src="https://bmsvieira.github.io/osticket-api/images/logo.png">
  <br><br>
  Welcome to the unofficial OSTicket API!<br><br>
  The purpose of this API is to help the community and leverage the use of OSTicket.<br>
@@ -18,7 +18,7 @@ This api was tested in the following OST versions:
 
 ## How to Use
 To use OSTicket Unofficial API you have to place the `ost_wbs` directory in the root of OSTicket server.<br>
-Then, go to `ost_wbs > config.php` and change the DB credentials.
+Then, go to `ost_wbs > config.php` and change the `DB credentials` and the `table prefix`.
 
 Use the following URL: `{YOUR-DOMAIN}/ost_wbs/?`
 
