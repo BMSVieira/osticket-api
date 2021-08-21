@@ -8,6 +8,9 @@ define('DBNAME','{DBNAME}');
 define('DBUSER','{DBUSER}');
 define('DBPASS','{DBPASS}');
 
+# Table prefix
+define('TABLE_PREFIX','ost_');
+
 class DBConnection{
     function getDBConnect(){
         
