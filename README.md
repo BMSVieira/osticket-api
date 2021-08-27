@@ -85,7 +85,7 @@ You can fetch all tickets by creation between two given dates, for example:
 | `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
 | `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `date` | ✅ | Indicates the type of search |
+| `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
 | `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all tickets will be fetched |
 
 ### 🔷 Between Dates by Status
@@ -98,7 +98,7 @@ You can fetch all tickets by creation between two given dates and by status, for
 | `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
 | `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `statusbydate` | ✅ | Indicates the type of search |
+| `sort`|  `string` | `statusByDate` | ✅ | Indicates the type of search |
 | `parameters`| `string` | `1990-01-01to2000-01-01`,`2` | ✅ | Date interval and status by wich all tickets will be fetched |
 
 
@@ -126,7 +126,7 @@ You can fetch all user by creation between two given dates, for example:
 | `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `user` | ✅ | Indicates the content of the request |
 | `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `date` | ✅ | Indicates the type of search |
+| `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
 | `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all users will be fetched |
 
 ## Department Info
@@ -153,7 +153,7 @@ You can fetch all departments by creation between two given dates, for example:
 | `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `department` | ✅ | Indicates the content of the request |
 | `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `date` | ✅ | Indicates the type of search |
+| `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
 | `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all departments will be fetched |
 
 ## SLA Info
@@ -180,7 +180,7 @@ You can fetch all departments by creation between two given dates, for example:
 | `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `sla` | ✅ | Indicates the content of the request |
 | `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `date` | ✅ | Indicates the type of search |
+| `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
 | `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all SLAs will be fetched |
 
 
