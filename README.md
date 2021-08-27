@@ -36,7 +36,7 @@ In all requests, the API key that was created in the OSTicket system must be sen
 
 ## Ticket Info
 
-### 🔘 Specific Ticket
+### 🔷 Specific Ticket
 You can fetch all info from a specific ticket using the ID or ID Number, for example:
 
 `{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=specific&parameters={TICKET-ID/TICKET-NUMBER}`
@@ -49,7 +49,7 @@ You can fetch all info from a specific ticket using the ID or ID Number, for exa
 | `parameters`| `int` or `string` | `ID` or `Number` | ✅ | Indicates specific ID or Number |
 
 
-### 🔘 By Status 
+### 🔷 By Status 
 You can fetch all tickets based on the current status, for example:
 
 `{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=status&parameters={TICKET-STATUS-ID}`
@@ -75,7 +75,7 @@ Available ticket status:
 | `6`| `On Going` |
 | `7`| `Pending` |
 
-### 🔘 Between Dates
+### 🔷 Between Dates
 You can fetch all tickets by creation between two given dates, for example:
 
 `{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}`
@@ -88,7 +88,7 @@ You can fetch all tickets by creation between two given dates, for example:
 | `sort`|  `string` | `date` | ✅ | Indicates the type of search |
 | `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all tickets will be fetched |
 
-### 🔘 Between Dates by Status
+### 🔷 Between Dates by Status
 You can fetch all tickets by creation between two given dates and by status, for example:
 
 `{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=statusByDate&parameters={START-DATEtoEND-DATE},{TICKET-STATUS-ID}`
@@ -104,7 +104,7 @@ You can fetch all tickets by creation between two given dates and by status, for
 
 ## User Info
 
-### 🔘 Specific User
+### 🔷 Specific User
 You can fetch all info from a specific user using the ID, for example:
 
 `{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=user&condition=specific&parameters={USER-ID}`
@@ -116,7 +116,7 @@ You can fetch all info from a specific user using the ID, for example:
 | `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
 | `parameters`| `int` | `User ID` | ✅ | Indicates specific ID |
 
-### 🔘 Between Dates
+### 🔷 Between Dates
 You can fetch all user by creation between two given dates, for example:
 
 `{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=user&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}`
@@ -131,7 +131,7 @@ You can fetch all user by creation between two given dates, for example:
 
 ## Department Info
 
-### 🔘 Specific Department
+### 🔷 Specific Department
 You can fetch all info from a specific deparment using the ID, for example:
 
 `{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=specific&parameters={DEPARTMENT-ID}`
@@ -143,7 +143,7 @@ You can fetch all info from a specific deparment using the ID, for example:
 | `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
 | `parameters`| `int` | `Department ID` | ✅ | Indicates specific ID |
 
-### 🔘 Between Dates
+### 🔷 Between Dates
 You can fetch all departments by creation between two given dates, for example:
 
 `{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}`
@@ -158,7 +158,7 @@ You can fetch all departments by creation between two given dates, for example:
 
 ## SLA Info
 
-### 🔘 Specific SLA
+### 🔷 Specific SLA
 You can fetch all info from a specific sla using the ID, for example:
 
 `{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=sla&condition=specific&parameters={SLA-ID}`
@@ -170,7 +170,7 @@ You can fetch all info from a specific sla using the ID, for example:
 | `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
 | `parameters`| `int` | `SLA ID` | ✅ | Indicates specific ID |
 
-### 🔘 Between Dates
+### 🔷 Between Dates
 You can fetch all departments by creation between two given dates, for example:
 
 `{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=sla&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}`
