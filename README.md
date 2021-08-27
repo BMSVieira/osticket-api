@@ -19,7 +19,10 @@ This api was tested in the following OST versions:
 To use OSTicket Unofficial API you have to place the `ost_wbs` directory in the root of OSTicket server.<br>
 Then, go to `ost_wbs > config.php` and change the `DB credentials` and the `table prefix`.
 
-Use the following URL: `{YOUR-DOMAIN}/ost_wbs/?`
+Use the following URL: 
+```javascript
+{YOUR-DOMAIN}/ost_wbs/?
+```
 
 <b>NOTE</b>: If you dont know the credentials, go to `/include/ost-config.php`. That is the main config file for OSTicket system.
 
@@ -32,14 +35,18 @@ In all requests, the API key that was created in the OSTicket system must be sen
 
 <b>Example</b>:
 
-`{YOUR-DOMAIN}/ost_wbs/?apikey={API-KEY}`
+```javascript
+{YOUR-DOMAIN}/ost_wbs/?apikey={API-KEY}
+```
 
-## Ticket Info
+## 🟩 Ticket Info
 
 ### 🔷 Specific Ticket
 You can fetch all info from a specific ticket using the ID or ID Number, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=specific&parameters={TICKET-ID/TICKET-NUMBER}`
+```javascript
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=specific&parameters={TICKET-ID/TICKET-NUMBER}
+```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
@@ -52,7 +59,9 @@ You can fetch all info from a specific ticket using the ID or ID Number, for exa
 ### 🔷 By Status 
 You can fetch all tickets based on the current status, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=status&parameters={TICKET-STATUS-ID}`
+```javascript
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=status&parameters={TICKET-STATUS-ID}
+```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
@@ -78,7 +87,9 @@ Available ticket status:
 ### 🔷 Between Dates
 You can fetch all tickets by creation between two given dates, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}`
+```javascript
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
@@ -91,7 +102,9 @@ You can fetch all tickets by creation between two given dates, for example:
 ### 🔷 Between Dates by Status
 You can fetch all tickets by creation between two given dates and by status, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=statusByDate&parameters={START-DATEtoEND-DATE},{TICKET-STATUS-ID}`
+```javascript
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=statusByDate&parameters={START-DATEtoEND-DATE},{TICKET-STATUS-ID}
+```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
@@ -102,12 +115,14 @@ You can fetch all tickets by creation between two given dates and by status, for
 | `parameters`| `string` | `1990-01-01to2000-01-01`,`2` | ✅ | Date interval and status by wich all tickets will be fetched |
 
 
-## User Info
+## 🟩 User Info
 
 ### 🔷 Specific User
 You can fetch all info from a specific user using the ID, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=user&condition=specific&parameters={USER-ID}`
+```javascript
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=user&condition=specific&parameters={USER-ID}
+```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
@@ -119,7 +134,9 @@ You can fetch all info from a specific user using the ID, for example:
 ### 🔷 Between Dates
 You can fetch all user by creation between two given dates, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=user&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}`
+```javascript
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=user&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
@@ -129,12 +146,14 @@ You can fetch all user by creation between two given dates, for example:
 | `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
 | `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all users will be fetched |
 
-## Department Info
+## 🟩 Department Info
 
 ### 🔷 Specific Department
 You can fetch all info from a specific deparment using the ID, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=specific&parameters={DEPARTMENT-ID}`
+```javascript
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=specific&parameters={DEPARTMENT-ID}
+```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
@@ -146,7 +165,9 @@ You can fetch all info from a specific deparment using the ID, for example:
 ### 🔷 Between Dates
 You can fetch all departments by creation between two given dates, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}`
+```javascript
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
@@ -156,12 +177,14 @@ You can fetch all departments by creation between two given dates, for example:
 | `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
 | `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all departments will be fetched |
 
-## SLA Info
+## 🟩 SLA Info
 
 ### 🔷 Specific SLA
 You can fetch all info from a specific sla using the ID, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=sla&condition=specific&parameters={SLA-ID}`
+```javascript
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=sla&condition=specific&parameters={SLA-ID}
+```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
@@ -173,7 +196,9 @@ You can fetch all info from a specific sla using the ID, for example:
 ### 🔷 Between Dates
 You can fetch all departments by creation between two given dates, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=sla&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}`
+```javascript
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=sla&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
