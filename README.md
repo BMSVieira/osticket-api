@@ -78,7 +78,7 @@ Available ticket status:
 ### 🔘 Between Dates
 You can fetch all tickets by creation between two given dates, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=date&parameters={START-DATEtoEND-DATE}`
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}`
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
@@ -91,7 +91,7 @@ You can fetch all tickets by creation between two given dates, for example:
 ### 🔘 Between Dates by Status
 You can fetch all tickets by creation between two given dates and by status, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=statusbydate&parameters={START-DATEtoEND-DATE},{TICKET-STATUS-ID}`
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=statusByDate&parameters={START-DATEtoEND-DATE},{TICKET-STATUS-ID}`
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
@@ -119,7 +119,7 @@ You can fetch all info from a specific user using the ID, for example:
 ### 🔘 Between Dates
 You can fetch all user by creation between two given dates, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=user&condition=all&sort=date&parameters={START-DATEtoEND-DATE}`
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=user&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}`
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
@@ -146,7 +146,7 @@ You can fetch all info from a specific deparment using the ID, for example:
 ### 🔘 Between Dates
 You can fetch all departments by creation between two given dates, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=date&parameters={START-DATEtoEND-DATE}`
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}`
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
@@ -173,7 +173,7 @@ You can fetch all info from a specific sla using the ID, for example:
 ### 🔘 Between Dates
 You can fetch all departments by creation between two given dates, for example:
 
-`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=sla&condition=all&sort=date&parameters={START-DATEtoEND-DATE}`
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=sla&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}`
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
