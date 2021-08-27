@@ -15,7 +15,6 @@ This api was tested in the following OST versions:
 | `v1.15.3.1` Latest Release|
 | `v1.14.3`|
 
-
 ## How to Use
 To use OSTicket Unofficial API you have to place the `ost_wbs` directory in the root of OSTicket server.<br>
 Then, go to `ost_wbs > config.php` and change the `DB credentials` and the `table prefix`.
@@ -101,4 +100,87 @@ You can fetch all tickets by creation between two given dates and by status, for
 | `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
 | `sort`|  `string` | `statusbydate` | ✅ | Indicates the type of search |
 | `parameters`| `string` | `1990-01-01to2000-01-01`,`2` | ✅ | Date interval and status by wich all tickets will be fetched |
+
+
+## User Info
+
+### 🔘 Specific User
+You can fetch all info from a specific user using the ID, for example:
+
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=user&condition=specific&parameters={USER-ID}`
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `user` | ✅ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
+| `parameters`| `int` | `User ID` | ✅ | Indicates specific ID |
+
+### 🔘 Between Dates
+You can fetch all user by creation between two given dates, for example:
+
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=user&condition=all&sort=date&parameters={START-DATEtoEND-DATE}`
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `user` | ✅ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
+| `sort`|  `string` | `date` | ✅ | Indicates the type of search |
+| `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all users will be fetched |
+
+## Department Info
+
+### 🔘 Specific Department
+You can fetch all info from a specific deparment using the ID, for example:
+
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=specific&parameters={DEPARTMENT-ID}`
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `department` | ✅ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
+| `parameters`| `int` | `Department ID` | ✅ | Indicates specific ID |
+
+### 🔘 Between Dates
+You can fetch all departments by creation between two given dates, for example:
+
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=date&parameters={START-DATEtoEND-DATE}`
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `department` | ✅ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
+| `sort`|  `string` | `date` | ✅ | Indicates the type of search |
+| `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all departments will be fetched |
+
+## SLA Info
+
+### 🔘 Specific SLA
+You can fetch all info from a specific sla using the ID, for example:
+
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=sla&condition=specific&parameters={SLA-ID}`
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `sla` | ✅ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
+| `parameters`| `int` | `SLA ID` | ✅ | Indicates specific ID |
+
+### 🔘 Between Dates
+You can fetch all departments by creation between two given dates, for example:
+
+`{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=sla&condition=all&sort=date&parameters={START-DATEtoEND-DATE}`
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `sla` | ✅ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
+| `sort`|  `string` | `date` | ✅ | Indicates the type of search |
+| `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all SLAs will be fetched |
+
 
