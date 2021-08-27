@@ -6,9 +6,9 @@ class apiKey
         // Connect Database
         $Dbobj = new DBConnection(); 
         $mysqli = $Dbobj->getDBConnect();
-        $ObterTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."api_key WHERE apiKey = '$key'");
-        $PrintTickets = $ObterTickets->fetch_object(); 
-        $CountR = $ObterTickets->num_rows;
+        $GetKey = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."api_key WHERE apiKey = '$key'");
+        $PrintTickets = $GetKey->fetch_object(); 
+        $CountR = $GetKey->num_rows;
         
         if(!$CountR)
         {
