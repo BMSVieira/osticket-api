@@ -14,12 +14,12 @@ header('Content-Type: application/json; charset: ut-8');
 
 // Require classes
 require_once 'config.php';
-require_once 'classes/helper_class.php';
-require_once 'classes/apikey_class.php';
-require_once 'classes/ticket_class.php';
-require_once 'classes/user_class.php';
-require_once 'classes/department_class.php';
-require_once 'classes/sla_class.php';
+require_once 'classes/class.helper.php';
+require_once 'classes/class.ticket.php';
+require_once 'classes/class.user.php';
+require_once 'classes/class.department.php';
+require_once 'classes/class.sla.php';
+
 
 // Main Class
 class OSTicketAPI
@@ -30,22 +30,19 @@ class OSTicketAPI
         $key = array("apikey" => $request['apikey']);
         $classe = ucfirst($request['query']);
         $method = $request['condition'];
-    
-        // If no sort parameters, goes "none"
+
         $sort = "none";
         $sort = $request['sort'];
 
-        // If no parameter, goes "none"
         $parameters = "none";
         $parameters = explode(",", $request['parameters']);
-
         $fparams = array("sort" => $sort, "parameters" => $parameters);
 
         try {
 
             // Check API Key
-            call_user_func_array(array(new apiKey, check), $key); 
-            
+            require_once 'classes/class.key.php';
+
                 if(class_exists($classe))
                 {
                     if(method_exists($classe, $method))

@@ -1,6 +1,43 @@
 <?php
+
 class Ticket 
 {
+        function compileResults($result)
+        {
+            return array(
+                    'ticket_id'=>$result->ticket_id,
+                    'ticket_pid'=>$result->ticket_pid,
+                    'number'=>$result->number,
+                    'user_id'=>$result->user_id,
+                    'user_email_id'=>$result->user_email_id,
+                    'status_id'=>$result->status_id,
+                    'dept_id'=>$result->dept_id,
+                    'sla_id'=>$result->sla_id,
+                    'topic_id'=>$result->topic_id,
+                    'staff_id'=>$result->staff_id,
+                    'team_id'=>$result->team_id,
+                    'email_id'=>$result->email_id,
+                    'lock_id'=>$result->lock_id,
+                    'flags'=>$result->flags,
+                    'sort'=>$result->sort,
+                    'subject'=>utf8_encode($result->subject),
+                    'title'=>utf8_encode($result->title),
+                    'body'=>utf8_encode($result->body),
+                    'ip_address'=>$result->ip_address,
+                    'source'=>$result->source,
+                    'source_extra'=>$result->source_extra,
+                    'isoverdue'=>$result->isoverdue,
+                    'isanswered'=>$result->isanswered,
+                    'duedate'=>$result->duedate,
+                    'est_duedate'=>$result->est_duedate,
+                    'reopened'=>$result->reopened,
+                    'closed'=>$result->closed,
+                    'lastupdate'=>$result->lastupdate,
+                    'created'=>$result->created,
+                    'updated'=>$result->updated
+            );
+        }  
+
         public function all($parameters)
         {
             // Connect Database
@@ -63,6 +100,7 @@ class Ticket
             // get num rows
             $numRows = $getTickets->num_rows;
             $countRows = 1;
+            $sameTicket = false;
             
             // Fetch data
             while($PrintTickets = $getTickets->fetch_object())
@@ -76,41 +114,10 @@ class Ticket
                         $ownTicket = array();
                     }
 
-                    array_push($ownTicket,
-                        array(
-                            'ticket_id'=>$PrintTickets->ticket_id,
-                            'ticket_pid'=>$PrintTickets->ticket_pid,
-                            'number'=>$PrintTickets->number,
-                            'user_id'=>$PrintTickets->user_id,
-                            'user_email_id'=>$PrintTickets->user_email_id,
-                            'status_id'=>$PrintTickets->status_id,
-                            'dept_id'=>$PrintTickets->dept_id,
-                            'sla_id'=>$PrintTickets->sla_id,
-                            'topic_id'=>$PrintTickets->topic_id,
-                            'staff_id'=>$PrintTickets->staff_id,
-                            'team_id'=>$PrintTickets->team_id,
-                            'email_id'=>$PrintTickets->email_id,
-                            'lock_id'=>$PrintTickets->lock_id,
-                            'flags'=>$PrintTickets->flags,
-                            'sort'=>$PrintTickets->sort,
-                            'subject'=>utf8_encode($PrintTickets->subject),
-                            'title'=>utf8_encode($PrintTickets->title),
-                            'body'=>utf8_encode($PrintTickets->body),
-                            'ip_address'=>$PrintTickets->ip_address,
-                            'source'=>$PrintTickets->source,
-                            'source_extra'=>$PrintTickets->source_extra,
-                            'isoverdue'=>$PrintTickets->isoverdue,
-                            'isanswered'=>$PrintTickets->isanswered,
-                            'duedate'=>$PrintTickets->duedate,
-                            'est_duedate'=>$PrintTickets->est_duedate,
-                            'reopened'=>$PrintTickets->reopened,
-                            'closed'=>$PrintTickets->closed,
-                            'lastupdate'=>$PrintTickets->lastupdate,
-                            'created'=>$PrintTickets->created,
-                            'updated'=>$PrintTickets->updated
-                      ));   
+                    // Compile results
+                    array_push($ownTicket, self::compileResults($PrintTickets));   
 
-                     if($countRows == $numRows)
+                    if($countRows == $numRows)
                         array_push($result, $ownTicket);
 
                     $countRows++;
@@ -143,42 +150,7 @@ class Ticket
             $numRows = $getTickets->num_rows;
             
             // Fetch data
-            while($PrintTickets = $getTickets->fetch_object())
-            {
-                 array_push($result,
-                    array(
-                        'ticket_id'=>$PrintTickets->ticket_id,
-                        'ticket_pid'=>$PrintTickets->ticket_pid,
-                        'number'=>$PrintTickets->number,
-                        'user_id'=>$PrintTickets->user_id,
-                        'user_email_id'=>$PrintTickets->user_email_id,
-                        'status_id'=>$PrintTickets->status_id,
-                        'dept_id'=>$PrintTickets->dept_id,
-                        'sla_id'=>$PrintTickets->sla_id,
-                        'topic_id'=>$PrintTickets->topic_id,
-                        'staff_id'=>$PrintTickets->staff_id,
-                        'team_id'=>$PrintTickets->team_id,
-                        'email_id'=>$PrintTickets->email_id,
-                        'lock_id'=>$PrintTickets->lock_id,
-                        'flags'=>$PrintTickets->flags,
-                        'sort'=>$PrintTickets->sort,
-                        'subject'=>utf8_encode($PrintTickets->subject),
-                        'title'=>utf8_encode($PrintTickets->title),
-                        'body'=>utf8_encode($PrintTickets->body),
-                        'ip_address'=>$PrintTickets->ip_address,
-                        'source'=>$PrintTickets->source,
-                        'source_extra'=>$PrintTickets->source_extra,
-                        'isoverdue'=>$PrintTickets->isoverdue,
-                        'isanswered'=>$PrintTickets->isanswered,
-                        'duedate'=>$PrintTickets->duedate,
-                        'est_duedate'=>$PrintTickets->est_duedate,
-                        'reopened'=>$PrintTickets->reopened,
-                        'closed'=>$PrintTickets->closed,
-                        'lastupdate'=>$PrintTickets->lastupdate,
-                        'created'=>$PrintTickets->created,
-                        'updated'=>$PrintTickets->updated
-                  ));   
-            }
+            while($PrintTickets = $getTickets->fetch_object()){ array_push($ownTicket, self::compileResults($PrintTickets)); }
         
             // Check if there are some results in the array
             if(!$result){
