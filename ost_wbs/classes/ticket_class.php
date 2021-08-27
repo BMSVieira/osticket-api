@@ -9,7 +9,7 @@ class Ticket
 
             switch ($parameters["sort"]) {
                 // Sorte by Date
-                case "date":
+                case "creationDate":
 
                     $startDate = Helper::getFormatedDate($parameters["parameters"][0], "start");
                     $endDate = Helper::getFormatedDate($parameters["parameters"][0], "end");
@@ -37,7 +37,7 @@ class Ticket
 
                 break;
                 // Sort Status by Date 
-                case "statusbydate":
+                case "statusByDate":
 
                     // Get Start&End Date
                     $startDate = Helper::getFormatedDate($parameters["parameters"][0], "start");
@@ -48,7 +48,7 @@ class Ticket
                     Helper::checkTicketStatus($tStatus);
 
                     // Query
-                    $getTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."ticket INNER JOIN ".TABLE_PREFIX."ticket__cdata ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."ticket__cdata.ticket_id INNER JOIN ".TABLE_PREFIX."thread_entry ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."thread_entry.thread_id WHERE created >= '$startDate' and ".TABLE_PREFIX."ticket.created <= '$endDate' AND ".TABLE_PREFIX."ticket.status_id = '$tStatus'");
+                    $getTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."ticket INNER JOIN ".TABLE_PREFIX."ticket__cdata ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."ticket__cdata.ticket_id INNER JOIN ".TABLE_PREFIX."thread_entry ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."thread_entry.thread_id WHERE ".TABLE_PREFIX."ticket.created >= '$startDate' and ".TABLE_PREFIX."ticket.created <= '$endDate' AND ".TABLE_PREFIX."ticket.status_id = '$tStatus'");
 
                 break;
                 default:
@@ -93,6 +93,9 @@ class Ticket
                             'lock_id'=>$PrintTickets->lock_id,
                             'flags'=>$PrintTickets->flags,
                             'sort'=>$PrintTickets->sort,
+                            'subject'=>utf8_encode($PrintTickets->subject),
+                            'title'=>utf8_encode($PrintTickets->title),
+                            'body'=>utf8_encode($PrintTickets->body),
                             'ip_address'=>$PrintTickets->ip_address,
                             'source'=>$PrintTickets->source,
                             'source_extra'=>$PrintTickets->source_extra,
@@ -118,8 +121,11 @@ class Ticket
                 throw new Exception("No items found.");
             }
             
+            // build return array
+            $returnArray = array('total' => $numRows, 'tickets' => $result); 
+            
             // Return values
-            return $result;  
+            return $returnArray;  
         }
 
         public function specific($parameters)
@@ -134,6 +140,7 @@ class Ticket
 
             // Array that stores all results
             $result = array();
+            $numRows = $getTickets->num_rows;
             
             // Fetch data
             while($PrintTickets = $getTickets->fetch_object())
@@ -155,6 +162,9 @@ class Ticket
                         'lock_id'=>$PrintTickets->lock_id,
                         'flags'=>$PrintTickets->flags,
                         'sort'=>$PrintTickets->sort,
+                        'subject'=>utf8_encode($PrintTickets->subject),
+                        'title'=>utf8_encode($PrintTickets->title),
+                        'body'=>utf8_encode($PrintTickets->body),
                         'ip_address'=>$PrintTickets->ip_address,
                         'source'=>$PrintTickets->source,
                         'source_extra'=>$PrintTickets->source_extra,
@@ -175,8 +185,11 @@ class Ticket
                 throw new Exception("No items found.");
             }
 
+            // build return array
+            $returnArray = array('total' => $numRows, 'tickets' => $result); 
+            
             // Return values
-            return $result;  
+            return $returnArray;  
         }
 }
 ?>

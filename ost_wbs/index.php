@@ -17,6 +17,9 @@ require_once 'config.php';
 require_once 'classes/helper_class.php';
 require_once 'classes/apikey_class.php';
 require_once 'classes/ticket_class.php';
+require_once 'classes/user_class.php';
+require_once 'classes/department_class.php';
+require_once 'classes/sla_class.php';
 
 // Main Class
 class OSTicketAPI
@@ -28,7 +31,7 @@ class OSTicketAPI
         $classe = ucfirst($request['query']);
         $method = $request['condition'];
     
-        // If no parameter, goes "none"
+        // If no sort parameters, goes "none"
         $sort = "none";
         $sort = $request['sort'];
 

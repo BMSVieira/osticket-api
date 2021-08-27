@@ -3,10 +3,11 @@
 error_reporting(0);
 
 // Database Credentials
-define('DBHOST','{DBHOST}');
-define('DBNAME','{DBNAME}');
-define('DBUSER','{DBUSER}');
-define('DBPASS','{DBPASS}');
+define('DBTYPE','');
+define('DBHOST','');
+define('DBNAME','');
+define('DBUSER','');
+define('DBPASS','');
 
 # Table prefix
 define('TABLE_PREFIX','ost_');
