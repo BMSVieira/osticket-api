@@ -2,7 +2,7 @@
 class Helper 
 {
     // Check Tickets Status
-    public function checkTicketStatus($ticketstatus)
+    public static function checkTicketStatus($ticketstatus)
     {
         // Map array to check if status is available
         $NAcceptedTicketStatus = array_map(function($ticketstatus){
