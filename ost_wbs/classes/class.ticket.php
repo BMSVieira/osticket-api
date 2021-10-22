@@ -150,7 +150,7 @@ class Ticket
             $numRows = $getTickets->num_rows;
             
             // Fetch data
-            while($PrintTickets = $getTickets->fetch_object()){ array_push($ownTicket, self::compileResults($PrintTickets)); }
+            while($PrintTickets = $getTickets->fetch_object()){ array_push($result, self::compileResults($PrintTickets)); }
         
             // Check if there are some results in the array
             if(!$result){
