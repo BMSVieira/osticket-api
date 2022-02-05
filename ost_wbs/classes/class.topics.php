@@ -1,0 +1,95 @@
+<?php
+
+class Topics 
+{
+
+    public function all($parameters)
+    {
+        // Connect Database
+        $Dbobj = new DBConnection(); 
+        $mysqli = $Dbobj->getDBConnect();
+
+        // Query
+        $getTopics = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."help_topic WHERE ispublic = 1 AND topic_pid = 0 ORDER BY sort ASC");
+
+        // Array that stores all results
+        $result = array();
+        $numRows = $getTopics->num_rows;
+
+        // Fetch data
+        while($PrintTopics = $getTopics->fetch_object())
+        {
+
+                array_push($result,
+                    array(
+                        'id'=>$PrintTopics->topic_id,
+                        'parent'=>$PrintTopics->topic_pid,
+                        'ispublic'=>$PrintTopics->ispublic,
+                        'sort'=>$PrintTopics->sort,
+                        'topic'=>utf8_encode($PrintTopics->topic),
+                        'notes'=>$PrintTopics->notes,
+                        'created'=>$PrintTopics->created,
+                        'updated'=>$PrintTopics->updated
+                  ));   
+
+        }
+
+        // Check if there are some results in the array
+        if(!$result){
+            throw new Exception("No items found.");
+        }
+
+        // build return array
+        $returnArray = array('total' => $numRows, 'topics' => $result); 
+
+        // Return values
+        return $returnArray;  
+    }
+
+    public function specific($parameters)
+    {
+        // Connect Database
+        $Dbobj = new DBConnection(); 
+        $mysqli = $Dbobj->getDBConnect();
+        $tID = $parameters["parameters"][0];
+
+        // Query
+        $getTopics = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."help_topic WHERE ispublic = 1 AND topic_id = " . $tID . " LIMIT 1");
+
+        // Array that stores all results
+        $result = array();
+        $numRows = $getTopics->num_rows;
+
+        // Fetch data
+        while($PrintTopics = $getTopics->fetch_object())
+        {
+
+                array_push($result,
+                    array(
+                        'id'=>$PrintTopics->topic_id,
+                        'parent'=>$PrintTopics->topic_pid,
+                        'ispublic'=>$PrintTopics->ispublic,
+                        'sort'=>$PrintTopics->sort,
+                        'topic'=>utf8_encode($PrintTopics->topic),
+                        'notes'=>$PrintTopics->notes,
+                        'created'=>$PrintTopics->created,
+                        'updated'=>$PrintTopics->updated
+                  ));   
+
+        }
+
+        // Check if there are some results in the array
+        if(!$result){
+            throw new Exception("No items found.");
+        }
+
+        // build return array
+        $returnArray = array('total' => $numRows, 'topic' => $result[0]); 
+
+        // Return values
+        return $returnArray;  
+    }
+
+}
+
+?>
