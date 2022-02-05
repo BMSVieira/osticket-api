@@ -214,7 +214,7 @@ You can fetch all departments by creation between two given dates, for example:
 You can fetch faq info from all categories, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=faq&condition=all
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -227,12 +227,41 @@ You can fetch faq info from all categories, for example:
 You can fetch faq info from a specific category, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=sla&condition=specific&parameters={Category-ID}
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=faq&condition=specific&parameters={Category-ID}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
 | `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `faq` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
+| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
 | `parameters`| `int` | `Category ID` | ✅ | Indicates specific ID |
+
+## 🟩 Topic Info
+
+### 🔷 All Topics
+You can fetch topic info, for example:
+
+```javascript
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=topic&condition=all
+```
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `topic` | ✅ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
+
+### 🔷 Specific Topic
+You can fetch info for a specific topic, for example:
+
+```javascript
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=topic&condition=specific&parameters={Topic-ID}
+```
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `topic` | ✅ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
+| `parameters`| `int` | `Topic ID` | ✅ | Indicates specific ID |
