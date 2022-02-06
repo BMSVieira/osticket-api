@@ -1,5 +1,5 @@
 <?php
-class Department 
+class Department
 {
         public function all($parameters)
         {
@@ -18,6 +18,9 @@ class Department
                     $getDepartment = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."department WHERE ".TABLE_PREFIX."department.created >= '$startDate' and ".TABLE_PREFIX."department.created <= '$endDate'");
 
                 break;
+                case "name":
+                    $getDepartment = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."department WHERE " . TABLE_PREFIX . "department.pid IS NULL AND " . TABLE_PREFIX . "department.ispublic = 1 ORDER BY " . TABLE_PREFIX . "department.name ASC");
+                    break;
                 default:
                     throw new Exception("Unknown Parameter.");
                 break;
