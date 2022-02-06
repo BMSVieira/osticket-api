@@ -177,6 +177,21 @@ You can fetch all departments by creation between two given dates, for example:
 | `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
 | `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all departments will be fetched |
 
+### 🔷 By Name
+You can fetch all info from published top level deparments sorted by name, for example:
+
+```javascript
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=name
+```
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `department` | ✅ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
+| `sort`|  `string` | `name` | ✅ | Indicates the type of search |
+
+
 ## 🟩 SLA Info
 
 ### 🔷 Specific SLA
