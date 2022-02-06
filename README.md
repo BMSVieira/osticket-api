@@ -178,7 +178,7 @@ You can fetch all departments by creation between two given dates, for example:
 | `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all departments will be fetched |
 
 ### 🔷 By Name
-You can fetch all info from published top level deparments sorted by name, for example:
+You can fetch all info from published top level departments sorted by name, for example:
 
 ```javascript
 {YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=name
