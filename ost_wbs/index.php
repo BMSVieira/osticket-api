@@ -14,12 +14,11 @@ header('Content-Type: application/json; charset: ut-8');
 
 // Require classes
 require_once 'config.php';
-require_once 'classes/class.helper.php';
-require_once 'classes/class.ticket.php';
-require_once 'classes/class.user.php';
-require_once 'classes/class.department.php';
-require_once 'classes/class.sla.php';
 
+// Autoload class files
+spl_autoload_register( function ( $class ) {
+    require_once 'classes/class.' . lcfirst($class) . '.php';
+});
 
 // Main Class
 class OSTicketAPI
@@ -31,11 +30,9 @@ class OSTicketAPI
         $classe = ucfirst($request['query']);
         $method = $request['condition'];
 
-        $sort = "none";
-        $sort = $request['sort'];
+        $sort = (isset($request['sort'])) ? $request['sort']:'none';
 
-        $parameters = "none";
-        $parameters = explode(",", $request['parameters']);
+        $parameters = (isset($request['parameters'])) ? explode(",", $request['parameters']):'none';
         $fparams = array("sort" => $sort, "parameters" => $parameters);
 
         try {
