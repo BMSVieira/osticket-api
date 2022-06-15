@@ -40,6 +40,11 @@ In all requests, the API key that was created in the OSTicket system must be sen
 {YOUR-DOMAIN}/ost_wbs/?apikey={API-KEY}
 ```
 
+### Check IP Authorization
+To use the API from a specific IP Address, go to `ost_wbs > config.php` and set `API KEY RESTRICT` to `True`
+
+<br>
+
 ## 🟩 Ticket Info
 
 ### 🔷 Specific Ticket
