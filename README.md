@@ -45,7 +45,7 @@ In all requests, the API key that was created in the OSTicket system must be sen
 You can fetch all info from a specific ticket using the ID or ID Number, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=specific&parameters={TICKET-ID/TICKET-NUMBER}
+/ost_wbs/?apikey={API-KEY}&query=ticket&condition=specific&parameters={TICKET-ID/TICKET-NUMBER}
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -60,7 +60,7 @@ You can fetch all info from a specific ticket using the ID or ID Number, for exa
 You can fetch all tickets based on the current status, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=status&parameters={TICKET-STATUS-ID}
+/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=status&parameters={TICKET-STATUS-ID}
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -88,7 +88,7 @@ Available ticket status:
 You can fetch all tickets by creation between two given dates, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -103,7 +103,7 @@ You can fetch all tickets by creation between two given dates, for example:
 You can fetch all tickets by creation between two given dates and by status, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=statusByDate&parameters={START-DATEtoEND-DATE},{TICKET-STATUS-ID}
+/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=statusByDate&parameters={START-DATEtoEND-DATE},{TICKET-STATUS-ID}
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -121,7 +121,7 @@ You can fetch all tickets by creation between two given dates and by status, for
 You can fetch all info from a specific user using the ID, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=user&condition=specific&parameters={USER-ID}
+/ost_wbs/?apikey={API-KEY}&query=user&condition=specific&parameters={USER-ID}
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -135,7 +135,7 @@ You can fetch all info from a specific user using the ID, for example:
 You can fetch all user by creation between two given dates, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=user&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+/ost_wbs/?apikey={API-KEY}&query=user&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -152,7 +152,7 @@ You can fetch all user by creation between two given dates, for example:
 You can fetch all info from a specific deparment using the ID, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=specific&parameters={DEPARTMENT-ID}
+/ost_wbs/?apikey={API-KEY}&query=department&condition=specific&parameters={DEPARTMENT-ID}
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -166,7 +166,7 @@ You can fetch all info from a specific deparment using the ID, for example:
 You can fetch all departments by creation between two given dates, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -181,7 +181,7 @@ You can fetch all departments by creation between two given dates, for example:
 You can fetch all info from published top level departments sorted by name, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=name
+/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=name
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -198,7 +198,7 @@ You can fetch all info from published top level departments sorted by name, for 
 You can fetch all info from a specific sla using the ID, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=sla&condition=specific&parameters={SLA-ID}
+/ost_wbs/?apikey={API-KEY}&query=sla&condition=specific&parameters={SLA-ID}
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -212,7 +212,7 @@ You can fetch all info from a specific sla using the ID, for example:
 You can fetch all departments by creation between two given dates, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=sla&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+/ost_wbs/?apikey={API-KEY}&query=sla&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -229,7 +229,7 @@ You can fetch all departments by creation between two given dates, for example:
 You can fetch faq info from all categories, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=faq&condition=all
+/ost_wbs/?apikey={API-KEY}&query=faq&condition=all
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -242,7 +242,7 @@ You can fetch faq info from all categories, for example:
 You can fetch faq info from a specific category, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=faq&condition=specific&parameters={Category-ID}
+/ost_wbs/?apikey={API-KEY}&query=faq&condition=specific&parameters={Category-ID}
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -258,7 +258,7 @@ You can fetch faq info from a specific category, for example:
 You can fetch topic info, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=topics&condition=all
+/ost_wbs/?apikey={API-KEY}&query=topics&condition=all
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -271,7 +271,7 @@ You can fetch topic info, for example:
 You can fetch info for a specific topic, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=topics&condition=specific&parameters={Topic-ID}
+/ost_wbs/?apikey={API-KEY}&query=topics&condition=specific&parameters={Topic-ID}
 ```
 
 | Option | Type | value | Mandatory | Description
