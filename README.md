@@ -258,7 +258,7 @@ You can fetch faq info from a specific category, for example:
 You can fetch topic info, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=topic&condition=all
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=topics&condition=all
 ```
 
 | Option | Type | value | Mandatory | Description
@@ -271,7 +271,7 @@ You can fetch topic info, for example:
 You can fetch info for a specific topic, for example:
 
 ```javascript
-{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=topic&condition=specific&parameters={Topic-ID}
+{YOUR DOMAIN}/ost_wbs/?apikey={API-KEY}&query=topics&condition=specific&parameters={Topic-ID}
 ```
 
 | Option | Type | value | Mandatory | Description
