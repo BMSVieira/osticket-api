@@ -12,7 +12,8 @@ This api was tested in the following OST versions:
 
 | Version |
 | --- |
-| `v1.15.3.1` Latest Release|
+| `v1.15.8`|
+| `v1.15.3.1`|
 | `v1.14.3`|
 
 ## How to Use
