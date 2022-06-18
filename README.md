@@ -6,76 +6,81 @@
  For more info, please go to their official website: https://osticket.com/
 </p>
 
-
-## Tested Versions
-This api was tested in the following OST versions:
-
-| Version |
-| --- |
-| `v1.15.8`|
-| `v1.15.3.1`|
-| `v1.14.3`|
-
 ## How to Use
-To use OSTicket Unofficial API you have to place the `ost_wbs` directory in the root of OSTicket server.<br>
+To use OSTicket Unofficial API you have to place the `ost_wbs` directory in the root of OSTicket server. <br>
 Then, go to `ost_wbs > config.php` and change the `DB credentials` and the `table prefix`.
 
-Use the following URL: 
+Use the following base URL: 
 ```javascript
-{YOUR-DOMAIN}/ost_wbs/?
+{YOUR-DOMAIN}/upload/ost_wbs/
 ```
 
-<b>NOTE</b>: If you dont know the credentials, go to `/include/ost-config.php`. That is the main config file for OSTicket system.
+<b>NOTE</b>: If you dont know the credentials, go to `upload/include/ost-config.php`. That is the main config file for OSTicket system.
 
 ## Authentication
-In all requests, the API key that was created in the OSTicket system must be sent to authenticate the user.<br>
+In all requests, the API key that was created in the OSTicket system must be sent in the `header` to authenticate the user.<br>
 
-| Option | Type | Mandatory | Description
-| --- | --- |  :-: |  --- |
-| `apikey`| string | ✅ | Official API-Key generated in OSTicket System |
+| Option | Mandatory | Description
+| --- | :-: |  --- |
+| `apikey` | ✅ | Official API-Key generated in OSTicket System |
 
-<b>Example</b>:
-
-```javascript
-{YOUR-DOMAIN}/ost_wbs/?apikey={API-KEY}
-```
-
-### Check IP Authorization
+## Check IP Authorization
 To use the API from a specific IP Address, go to `ost_wbs > config.php` and set `API KEY RESTRICT` to `True`
+
+## Request Structure
+All request must have the following structure.
+
+| Type | format | Description |
+| --- | --- |  :-: |
+| `header`| default | Authentication |
+| `body`| json | Parameters |
+
+Output format: `json`
 
 <br>
 
-## 🟩 Ticket Info
+## 🔶 Ticket Info
 
-### 🔷 Specific Ticket
-You can fetch all info from a specific ticket using the ID or ID Number, for example:
+### 🔸 `[GET]` Specific
+Fetch all info from a specific ticket using the ID or ID Number.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=ticket&condition=specific&parameters={TICKET-ID/TICKET-NUMBER}
+{
+"query":"ticket",
+"condition":"specific",
+"parameters":{
+    "id":1
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
 | `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
-| `parameters`| `int` or `string` | `ID` or `Number` | ✅ | Indicates specific ID or Number |
+| `parameters` > `id`| `int` or `string` | `ID` or `Number` | ✅ | Indicates specific ID or Number |
 
 
-### 🔷 By Status 
-You can fetch all tickets based on the current status, for example:
+### 🔸 `[GET]` Status 
+Fetch all tickets based on the current status.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=status&parameters={TICKET-STATUS-ID}
+{
+"query":"ticket",
+"condition":"all",
+"sort": "status",
+"parameters":{
+    "status":1
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
 | `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
 | `sort`|  `string` | `status` | ✅ | Indicates the type of search |
-| `parameters`| `int` or `string` | `Ticket Status ID` | ✅ | Ticket status ID you want to search for |
+| `parameters` > `status` | `int` | `Ticket Status ID` | ✅ | Ticket status ID you want to search for |
 
 Available ticket status:
 
@@ -90,35 +95,53 @@ Available ticket status:
 | `6`| `On Going` |
 | `7`| `Pending` |
 
-### 🔷 Between Dates
-You can fetch all tickets by creation between two given dates, for example:
+### 🔸 `[GET]` Creation Date
+Fetch all tickets by creation between two given dates.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+{
+"query":"ticket",
+"condition":"all",
+"sort": "creationDate",
+"parameters":{
+    "start_date":"1990/01/01",
+    "end_date":"2022/06/19"
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
 | `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
 | `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
-| `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all tickets will be fetched |
+| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✅ | Start date  |
+| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✅ | End date  |
 
-### 🔷 Between Dates by Status
-You can fetch all tickets by creation between two given dates and by status, for example:
+### 🔸 `[GET]` Creation Date by Status
+Fetch all tickets by creation between two given dates and by status.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=statusByDate&parameters={START-DATEtoEND-DATE},{TICKET-STATUS-ID}
+{
+"query":"ticket",
+"condition":"all",
+"sort": "status",
+"parameters":{
+    "status":1,
+    "start_date":"1990/01/01",
+    "end_date":"2022/06/19"
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
 | `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
 | `sort`|  `string` | `statusByDate` | ✅ | Indicates the type of search |
-| `parameters`| `string` | `1990-01-01to2000-01-01`,`2` | ✅ | Date interval and status by wich all tickets will be fetched |
+| `parameters` > `status`| `int` | `Ticket Status ID` | ✅ | Ticket Status  |
+| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✅ | Start date  |
+| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✅ | End date  |
 
 
 ## 🟩 User Info
