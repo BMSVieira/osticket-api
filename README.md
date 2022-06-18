@@ -28,7 +28,7 @@ In all requests, the API key that was created in the OSTicket system must be sen
 To use the API from a specific IP Address, go to `ost_wbs > config.php` and set `API KEY RESTRICT` to `True`
 
 ## Request Structure
-All request must have the following structure.
+All requests must have the following structure.
 
 | Type | format | Description |
 | --- | --- |  :-: |
@@ -294,60 +294,75 @@ Fetch all departments by creation between two given dates.
 | `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
 | `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
-## 🟩 Faq Info
+## 🔶 FAQ
 
-### 🔷 All Categories
-You can fetch faq info from all categories, for example:
+### 🔸 `[GET]` All
+Fetch faq info from all categories.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=faq&condition=all
+{
+"query":"faq",
+"condition":"all"
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `faq` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
+| `query`| `string` | `faq` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
 
-### 🔷 Specific Category
+### 🔸 `[GET]` Specific Category
 You can fetch faq info from a specific category, for example:
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=faq&condition=specific&parameters={Category-ID}
+{
+"query":"faq",
+"condition":"specific",
+"parameters":{
+    "id":1
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `faq` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
-| `parameters`| `int` | `Category ID` | ✅ | Indicates specific ID |
+| `apikey`| `string` | API-Key |  ✔️ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `faq` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
+| `parameters` > `id`| `int` | `Category ID` | ✔️ | Category ID |
 
-## 🟩 Topic Info
+## 🔶 Topic
 
-### 🔷 All Topics
-You can fetch topic info, for example:
+### 🔸 `[GET]` All
+Fetch all topics.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=topics&condition=all
+{
+"query":"topics",
+"condition":"all"
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `topic` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
+| `apikey`| `string` | API-Key |  ✔️ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `topic` | ✔️ | Indicates the content of the request |
 
-### 🔷 Specific Topic
-You can fetch info for a specific topic, for example:
+### 🔸 `[GET]` Specific
+Fetch info for a specific topic.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=topics&condition=specific&parameters={Topic-ID}
+{
+"query":"topics",
+"condition":"specific",
+"parameters":{
+    "id":1
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `topic` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
-| `parameters`| `int` | `Topic ID` | ✅ | Indicates specific ID |
+| `query`| `string` | `topic` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
+| `parameters` > `id`| `int` | `Topic ID` | ✔️ | Topic ID |
