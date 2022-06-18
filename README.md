@@ -39,7 +39,7 @@ Output format: `json`
 
 <br>
 
-## 🔶 Ticket Info
+## 🔶 Ticket
 
 ### 🔸 `[GET]` Specific
 Fetch all info from a specific ticket using the ID or ID Number.
@@ -144,36 +144,49 @@ Fetch all tickets by creation between two given dates and by status.
 | `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✅ | End date  |
 
 
-## 🟩 User Info
+## 🔶 User
 
-### 🔷 Specific User
-You can fetch all info from a specific user using the ID, for example:
+### 🔸 `[GET]` Specific
+Fetch all info from a specific user using the ID.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=user&condition=specific&parameters={USER-ID}
+{
+"query":"user",
+"condition":"specific",
+"parameters":{
+    "id":2
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `user` | ✅ | Indicates the content of the request |
 | `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
-| `parameters`| `int` | `User ID` | ✅ | Indicates specific ID |
+| `parameters` > `id`| `int` | `User ID` | ✅ | Indicates specific ID |
 
-### 🔷 Between Dates
-You can fetch all user by creation between two given dates, for example:
+### 🔸 `[GET]` Creation Date
+Fetch all user by creation between two given dates.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=user&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+{
+"query":"user",
+"condition":"all",
+"sort": "creationDate",
+"parameters":{
+    "start_date":"1990/01/01",
+    "end_date":"2022/06/18"
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `user` | ✅ | Indicates the content of the request |
 | `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
 | `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
-| `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all users will be fetched |
+| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✅ | Start date  |
+| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✅ | End date  |
 
 ## 🟩 Department Info
 
