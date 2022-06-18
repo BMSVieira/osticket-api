@@ -250,36 +250,49 @@ Fetch all info from published top level departments sorted by name.
 | `sort`|  `string` | `name` | ✔️ | Indicates the type of search |
 
 
-## 🟩 SLA Info
+## 🔶 SLA
 
-### 🔷 Specific SLA
-You can fetch all info from a specific sla using the ID, for example:
+### 🔸 `[GET]` Specific
+Fetch all info from a specific sla using the ID.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=sla&condition=specific&parameters={SLA-ID}
+{
+"query":"sla",
+"condition":"specific",
+"parameters":{
+    "id":1
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `sla` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
-| `parameters`| `int` | `SLA ID` | ✅ | Indicates specific ID |
+| `query`| `string` | `sla` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
+| `parameters` > `id`| `int` | `SLA ID` | ✔️ | SLA ID |
 
-### 🔷 Between Dates
-You can fetch all departments by creation between two given dates, for example:
+### 🔸 `[GET]` Creation Date
+Fetch all departments by creation between two given dates.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=sla&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+{
+"query":"sla",
+"condition":"all",
+"sort":"creationDate",
+"parameters":{
+    "start_date":"1990/01/01",
+    "end_date":"2022/06/19"
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `sla` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
-| `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all SLAs will be fetched |
+| `query`| `string` | `sla` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
+| `sort`|  `string` | `creationDate` | ✔️ | Indicates the type of search |
+| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
+| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
 ## 🟩 Faq Info
 
