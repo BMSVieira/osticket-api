@@ -17,7 +17,7 @@ class Helper
         return true;
     }
 
-    	// Get formated date from string
+    // Get formated date from string
     public function getFormatedDate($fullstring, $condition)
     {
 
@@ -35,6 +35,12 @@ class Helper
     	} 
 
     	return $result;
+    } 
 
+    // Check if request method is valid
+    public function validRequest($method){
+        if(!in_array($_SERVER['REQUEST_METHOD'], $method)){
+            throw new Exception($_SERVER['REQUEST_METHOD']." is not a valid request method");
+        }     
     }    
 }

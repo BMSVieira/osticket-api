@@ -40,6 +40,10 @@ class Ticket
 
         public function all($parameters)
         {
+            // Check Request method
+            $validRequests = array("GET");
+            Helper::validRequest($validRequests);
+
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
@@ -48,8 +52,9 @@ class Ticket
                 // Sorte by Date
                 case "creationDate":
 
-                    $startDate = Helper::getFormatedDate($parameters["parameters"][0], "start");
-                    $endDate = Helper::getFormatedDate($parameters["parameters"][0], "end");
+                    // Get Start&End Date
+                    $startDate = $parameters['parameters']['start_date'];
+                    $endDate = $parameters['parameters']['end_date'];
 
                     // Query
                     $getTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."ticket INNER JOIN ".TABLE_PREFIX."ticket__cdata ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."ticket__cdata.ticket_id INNER JOIN ".TABLE_PREFIX."thread_entry ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."thread_entry.thread_id WHERE ".TABLE_PREFIX."ticket.created >= '$startDate' and ".TABLE_PREFIX."ticket.created <= '$endDate'");
@@ -59,7 +64,7 @@ class Ticket
                 case "status":
 
                     // Check if ticket status is available
-                    $tStatus = $parameters["parameters"][0];
+                    $tStatus = $parameters["parameters"]["status"];
                     Helper::checkTicketStatus($tStatus);
 
                     // 0 value does not exist, so it is equal to "all records"
@@ -77,11 +82,11 @@ class Ticket
                 case "statusByDate":
 
                     // Get Start&End Date
-                    $startDate = Helper::getFormatedDate($parameters["parameters"][0], "start");
-                    $endDate = Helper::getFormatedDate($parameters["parameters"][0], "end");
+                    $startDate = $parameters['parameters']['start_date'];
+                    $endDate = $parameters['parameters']['end_date'];
 
                     // Check valid ticket status
-                    $tStatus = $parameters["parameters"][1];
+                    $tStatus = $parameters["parameters"]["status"];
                     Helper::checkTicketStatus($tStatus);
 
                     // Query
@@ -137,11 +142,14 @@ class Ticket
 
         public function specific($parameters)
         {
-           
+            // Check Request method
+            $validRequests = array("GET");
+            Helper::validRequest($validRequests);
+
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
-            $tID = $parameters["parameters"][0];
+            $tID = $parameters["parameters"]['id'];
 
             $getTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."ticket INNER JOIN ".TABLE_PREFIX."ticket__cdata ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."ticket__cdata.ticket_id INNER JOIN ".TABLE_PREFIX."thread_entry ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."thread_entry.thread_id WHERE ".TABLE_PREFIX."ticket.ticket_id = '$tID' OR ".TABLE_PREFIX."ticket.number = '$tID'");
 
@@ -162,6 +170,22 @@ class Ticket
             
             // Return values
             return $returnArray;  
+        }
+
+        public function add($parameters)
+        {
+            // Check Request method
+            $validRequests = array("POST", "PUT");
+            Helper::validRequest($validRequests);
+
+            return $this->insertRecord($parameters["parameters"]);
+        }
+
+        private function insertRecord($values)
+        {
+        
+    
+            return $values;
         }
 }
 ?>

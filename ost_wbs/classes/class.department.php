@@ -3,6 +3,10 @@ class Department
 {
         public function all($parameters)
         {
+            // Check Request method
+            $validRequests = array("GET");
+            Helper::validRequest($validRequests);
+                       
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
@@ -11,8 +15,9 @@ class Department
                 // Sorte by Date
                 case "creationDate":
 
-                    $startDate = Helper::getFormatedDate($parameters["parameters"][0], "start");
-                    $endDate = Helper::getFormatedDate($parameters["parameters"][0], "end");
+                    // Get Start&End Date
+                    $startDate = $parameters['parameters']['start_date'];
+                    $endDate = $parameters['parameters']['end_date'];
 
                     // Query
                     $getDepartment = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."department WHERE ".TABLE_PREFIX."department.created >= '$startDate' and ".TABLE_PREFIX."department.created <= '$endDate'");
@@ -57,6 +62,10 @@ class Department
         public function specific($parameters)
         {
            
+            // Check Request method
+            $validRequests = array("GET");
+            Helper::validRequest($validRequests);
+            
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();

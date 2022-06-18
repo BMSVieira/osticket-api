@@ -3,6 +3,10 @@ class Sla
 {
         public function all($parameters)
         {
+            // Check Request method
+            $validRequests = array("GET");
+            Helper::validRequest($validRequests);
+
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
@@ -11,8 +15,9 @@ class Sla
                 // Sorte by Date
                 case "creationDate":
 
-                    $startDate = Helper::getFormatedDate($parameters["parameters"][0], "start");
-                    $endDate = Helper::getFormatedDate($parameters["parameters"][0], "end");
+                    // Get Start&End Date
+                    $startDate = $parameters['parameters']['start_date'];
+                    $endDate = $parameters['parameters']['end_date'];
 
                     // Query
                     $getSla = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."sla WHERE ".TABLE_PREFIX."sla.created >= '$startDate' and ".TABLE_PREFIX."sla.created <= '$endDate'");
@@ -59,7 +64,7 @@ class Sla
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
-            $uID = $parameters["parameters"][0];
+            $uID = $parameters["parameters"]["id"];
 
             // set query
             $getSla = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."sla WHERE ".TABLE_PREFIX."sla.id = '$uID'");
