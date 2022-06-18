@@ -22,7 +22,7 @@ In all requests, the API key that was created in the OSTicket system must be sen
 
 | Option | Mandatory | Description
 | --- | :-: |  --- |
-| `apikey` | ✅ | Official API-Key generated in OSTicket System |
+| `apikey` | ✔️ | Official API-Key generated in OSTicket System |
 
 ## Check IP Authorization
 To use the API from a specific IP Address, go to `ost_wbs > config.php` and set `API KEY RESTRICT` to `True`
@@ -56,9 +56,9 @@ Fetch all info from a specific ticket using the ID or ID Number.
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
-| `parameters` > `id`| `int` or `string` | `ID` or `Number` | ✅ | Indicates specific ID or Number |
+| `query`| `string` | `ticket` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
+| `parameters` > `id`| `int` or `string` | `ID` or `Number` | ✔️ | Indicates specific ID or Number |
 
 
 ### 🔸 `[GET]` Status 
@@ -77,10 +77,10 @@ Fetch all tickets based on the current status.
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `status` | ✅ | Indicates the type of search |
-| `parameters` > `status` | `int` | `Ticket Status ID` | ✅ | Ticket status ID you want to search for |
+| `query`| `string` | `ticket` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
+| `sort`|  `string` | `status` | ✔️ | Indicates the type of search |
+| `parameters` > `status` | `int` | `Ticket Status ID` | ✔️ | Ticket status ID you want to search for |
 
 Available ticket status:
 
@@ -112,11 +112,11 @@ Fetch all tickets by creation between two given dates.
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
-| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✅ | Start date  |
-| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✅ | End date  |
+| `query`| `string` | `ticket` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
+| `sort`|  `string` | `creationDate` | ✔️ | Indicates the type of search |
+| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
+| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
 ### 🔸 `[GET]` Creation Date by Status
 Fetch all tickets by creation between two given dates and by status.
@@ -136,12 +136,12 @@ Fetch all tickets by creation between two given dates and by status.
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `statusByDate` | ✅ | Indicates the type of search |
-| `parameters` > `status`| `int` | `Ticket Status ID` | ✅ | Ticket Status  |
-| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✅ | Start date  |
-| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✅ | End date  |
+| `query`| `string` | `ticket` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
+| `sort`|  `string` | `statusByDate` | ✔️ | Indicates the type of search |
+| `parameters` > `status`| `int` | `Ticket Status ID` | ✔️ | Ticket Status  |
+| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
+| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
 
 ## 🔶 User
@@ -161,9 +161,9 @@ Fetch all info from a specific user using the ID.
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `query`| `string` | `user` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
-| `parameters` > `id`| `int` | `User ID` | ✅ | Indicates specific ID |
+| `query`| `string` | `user` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
+| `parameters` > `id`| `int` | `User ID` | ✔️ | Indicates specific ID |
 
 ### 🔸 `[GET]` Creation Date
 Fetch all user by creation between two given dates.
@@ -182,56 +182,72 @@ Fetch all user by creation between two given dates.
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `query`| `string` | `user` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
-| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✅ | Start date  |
-| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✅ | End date  |
+| `query`| `string` | `user` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
+| `sort`|  `string` | `creationDate` | ✔️ | Indicates the type of search |
+| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
+| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
-## 🟩 Department Info
+## 🔶 Department
 
-### 🔷 Specific Department
-You can fetch all info from a specific deparment using the ID, for example:
+### 🔸 `[GET]` Specific
+Fetch all info from a specific deparment using the ID.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=department&condition=specific&parameters={DEPARTMENT-ID}
+{
+"query":"department",
+"condition":"specific",
+"parameters":{
+    "id":1
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `department` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
-| `parameters`| `int` | `Department ID` | ✅ | Indicates specific ID |
+| `query`| `string` | `department` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
+| `parameters` > `id`| `int` | `Department ID` | ✔️ | Department ID |
 
-### 🔷 Between Dates
-You can fetch all departments by creation between two given dates, for example:
+### 🔸 `[GET]` Creation Date
+Fetch all departments by creation between two given dates.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+{
+"query":"department",
+"condition":"all",
+"sort": "creationDate",
+"parameters":{
+    "start_date":"1990/01/01",
+    "end_date":"2022/06/19"
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `department` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
-| `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all departments will be fetched |
+| `query`| `string` | `department` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
+| `sort`|  `string` | `creationDate` | ✔️ | Indicates the type of search |
+| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
+| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
-### 🔷 By Name
-You can fetch all info from published top level departments sorted by name, for example:
+### 🔸 `[GET]` Name
+Fetch all info from published top level departments sorted by name.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=name
+{
+"query":"department",
+"condition":"all",
+"sort": "name"
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `department` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `name` | ✅ | Indicates the type of search |
+| `query`| `string` | `department` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
+| `sort`|  `string` | `name` | ✔️ | Indicates the type of search |
 
 
 ## 🟩 SLA Info
