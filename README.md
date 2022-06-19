@@ -41,7 +41,7 @@ Output format: `json`
 
 ## 🔶 Ticket
 
-### 🔸 `[GET]` Specific
+### 🔸 `[GET]` Ticket/Specific
 Fetch all info from a specific ticket using the ID or ID Number.
 
 ```javascript
@@ -61,7 +61,7 @@ Fetch all info from a specific ticket using the ID or ID Number.
 | `parameters` > `id`| `int` or `string` | `ID` or `Number` | ✔️ | Indicates specific ID or Number |
 
 
-### 🔸 `[GET]` Status 
+### 🔸 `[GET]` Ticket/Status 
 Fetch all tickets based on the current status.
 
 ```javascript
@@ -95,7 +95,7 @@ Available ticket status:
 | `6`| `On Going` |
 | `7`| `Pending` |
 
-### 🔸 `[GET]` Creation Date
+### 🔸 `[GET]` Ticket/Creation Date
 Fetch all tickets by creation between two given dates.
 
 ```javascript
@@ -104,8 +104,8 @@ Fetch all tickets by creation between two given dates.
 "condition":"all",
 "sort": "creationDate",
 "parameters":{
-    "start_date":"1990/01/01",
-    "end_date":"2022/06/19"
+    "start_date":"1990-01-01 00:00:00",
+    "end_date":"2022-06-17 23:59:59"
     }
 }
 ```
@@ -118,7 +118,7 @@ Fetch all tickets by creation between two given dates.
 | `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
 | `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
-### 🔸 `[GET]` Creation Date by Status
+### 🔸 `[GET]` Ticket/Creation Date by Status
 Fetch all tickets by creation between two given dates and by status.
 
 ```javascript
@@ -128,8 +128,8 @@ Fetch all tickets by creation between two given dates and by status.
 "sort": "status",
 "parameters":{
     "status":1,
-    "start_date":"1990/01/01",
-    "end_date":"2022/06/19"
+    "start_date":"1990-01-01 00:00:00",
+    "end_date":"2022-06-17 23:59:59"
     }
 }
 ```
@@ -146,7 +146,7 @@ Fetch all tickets by creation between two given dates and by status.
 
 ## 🔶 User
 
-### 🔸 `[GET]` Specific
+### 🔸 `[GET]` User/Specific
 Fetch all info from a specific user using the ID.
 
 ```javascript
@@ -165,7 +165,7 @@ Fetch all info from a specific user using the ID.
 | `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
 | `parameters` > `id`| `int` | `User ID` | ✔️ | Indicates specific ID |
 
-### 🔸 `[GET]` Creation Date
+### 🔸 `[GET]` User/Creation Date
 Fetch all user by creation between two given dates.
 
 ```javascript
@@ -174,8 +174,8 @@ Fetch all user by creation between two given dates.
 "condition":"all",
 "sort": "creationDate",
 "parameters":{
-    "start_date":"1990/01/01",
-    "end_date":"2022/06/18"
+    "start_date":"1990-01-01 00:00:00",
+    "end_date":"2022-06-17 23:59:59"
     }
 }
 ```
@@ -190,7 +190,7 @@ Fetch all user by creation between two given dates.
 
 ## 🔶 Department
 
-### 🔸 `[GET]` Specific
+### 🔸 `[GET]` Department/Specific
 Fetch all info from a specific deparment using the ID.
 
 ```javascript
@@ -209,7 +209,7 @@ Fetch all info from a specific deparment using the ID.
 | `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
 | `parameters` > `id`| `int` | `Department ID` | ✔️ | Department ID |
 
-### 🔸 `[GET]` Creation Date
+### 🔸 `[GET]` Department/Creation Date
 Fetch all departments by creation between two given dates.
 
 ```javascript
@@ -218,8 +218,8 @@ Fetch all departments by creation between two given dates.
 "condition":"all",
 "sort": "creationDate",
 "parameters":{
-    "start_date":"1990/01/01",
-    "end_date":"2022/06/19"
+    "start_date":"1990-01-01 00:00:00",
+    "end_date":"2022-06-17 23:59:59"
     }
 }
 ```
@@ -232,7 +232,7 @@ Fetch all departments by creation between two given dates.
 | `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
 | `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
-### 🔸 `[GET]` Name
+### 🔸 `[GET]` Department/Name
 Fetch all info from published top level departments sorted by name.
 
 ```javascript
@@ -252,7 +252,7 @@ Fetch all info from published top level departments sorted by name.
 
 ## 🔶 SLA
 
-### 🔸 `[GET]` Specific
+### 🔸 `[GET]` SLA/Specific
 Fetch all info from a specific sla using the ID.
 
 ```javascript
@@ -271,7 +271,7 @@ Fetch all info from a specific sla using the ID.
 | `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
 | `parameters` > `id`| `int` | `SLA ID` | ✔️ | SLA ID |
 
-### 🔸 `[GET]` Creation Date
+### 🔸 `[GET]` SLA/Creation Date
 Fetch all departments by creation between two given dates.
 
 ```javascript
@@ -280,8 +280,8 @@ Fetch all departments by creation between two given dates.
 "condition":"all",
 "sort":"creationDate",
 "parameters":{
-    "start_date":"1990/01/01",
-    "end_date":"2022/06/19"
+    "start_date":"1990-01-01 00:00:00",
+    "end_date":"2022-06-17 23:59:59"
     }
 }
 ```
@@ -294,9 +294,36 @@ Fetch all departments by creation between two given dates.
 | `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
 | `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
+### 🔸 `[POST] [PUT]` SLA/Add
+Insert new data
+
+```javascript
+{
+"query":"sla",
+"condition":"add",
+"parameters":{
+    "name":"SLA Name",
+    "flags":1,
+    "grace_period":1,
+    "schedule_id":1,
+    "notes": "This is a note"
+    }
+}
+```
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `query`| `string` | `sla` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
+| `parameters` > `name`| `string` | `Name` | ✔️ | SLA ID |
+| `parameters` > `flags`| `int` | `Status` / `Transient` / `Ticket Overdue Alerts` | ✔️ | Flag Status |
+| `parameters` > `grace_period`| `int` | `Grace Period` | ✔️ | Grace Period |
+| `parameters` > `schedule_id`| `int` | `Shedule` | ✔️ | Shedule |
+| `parameters` > `notes`| `string` | `Notes` | ✔️ | Notes |
+
 ## 🔶 FAQ
 
-### 🔸 `[GET]` All
+### 🔸 `[GET]` FAQ/All
 Fetch faq info from all categories.
 
 ```javascript
@@ -311,7 +338,7 @@ Fetch faq info from all categories.
 | `query`| `string` | `faq` | ✔️ | Indicates the content of the request |
 | `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
 
-### 🔸 `[GET]` Specific Category
+### 🔸 `[GET]` FAQ/Specific Category
 You can fetch faq info from a specific category, for example:
 
 ```javascript
@@ -333,7 +360,7 @@ You can fetch faq info from a specific category, for example:
 
 ## 🔶 Topic
 
-### 🔸 `[GET]` All
+### 🔸 `[GET]` Topic/All
 Fetch all topics.
 
 ```javascript
@@ -348,7 +375,7 @@ Fetch all topics.
 | `apikey`| `string` | API-Key |  ✔️ | Official API-Key generated in OSTicket System |
 | `query`| `string` | `topic` | ✔️ | Indicates the content of the request |
 
-### 🔸 `[GET]` Specific
+### 🔸 `[GET]` Topic/Specific
 Fetch info for a specific topic.
 
 ```javascript
