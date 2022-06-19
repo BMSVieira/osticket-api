@@ -69,7 +69,7 @@ class Department
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
-            $depID = $parameters["parameters"]['id'];
+            $depID = $parameters["parameters"][0];
 
             // set query
             $getDepartment = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."department WHERE ".TABLE_PREFIX."department.id = '$depID'");

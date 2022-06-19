@@ -98,5 +98,114 @@ class Sla
             // Return values
             return $returnArray;  
         }
+
+
+        public function add($parameters)
+        {
+            // Check Request method
+            $validRequests = array("POST", "PUT");
+            Helper::validRequest($validRequests);
+
+            // Expected parameters
+            $expectedParameters = array("name", "flags", "grace_period", "schedule_id", "notes");
+
+            // Check if all paremeters are correct
+            self::checkRequest($parameters, $expectedParameters);
+
+                // Check if row already exists
+                if($this->checkExists('name', $parameters["parameters"]['name'])) { throw new Exception("Item Already exists"); }
+
+                // Prepare query
+                $paramOrder = "";
+                $valuesOrder = "";
+
+                foreach ($parameters["parameters"] as $key => $value) { 
+
+                    // Parameters order
+                    $paramOrder = $paramOrder.",".$key; 
+                    // Values order
+                    if(is_numeric($value)) { $valuesOrder = $valuesOrder.",".$value."";  } else { $valuesOrder = $valuesOrder.",'".$value."'";}
+                }
+
+                // Remove first comma
+                $paramOrder = substr($paramOrder, 1);
+                $valuesOrder = substr($valuesOrder, 1);
+
+                // final Query
+                $addQuery = "INSERT INTO ".TABLE_PREFIX."sla ";
+                $addQuery .= "(".$paramOrder.", created, updated)";
+                $addQuery .= "VALUES(".$valuesOrder.", now(), now())"; 
+
+                // Send query to be inserted
+                return $this->insertRecord($addQuery);        
+
+        }
+
+        public function checkRequest($parameters, $expectedParameters)
+        {
+
+            // Error array 
+            $errors = array();
+
+            // Check if parameters is an array
+            if(gettype($parameters["parameters"]) == 'array'){
+
+                // Check for empty fields
+                foreach ($expectedParameters as $key => $value) {
+                    if(empty($parameters["parameters"][$value])) {
+                        array_push($errors,"Empty or Incorrect fields were given.");
+                    }
+                }
+
+                // Check for unkown or unexpected fields
+                foreach ($parameters["parameters"] as $key => $value) {
+                    if (!in_array($key, $expectedParameters)) {
+                        array_push($errors,"Unexpectec fields given.");
+                    }
+                }
+
+                // If no errors, continue
+                if(count($errors) > 0){
+                    throw new Exception("Empty or Incorrect fields were given, read documentation for more info."); 
+                } 
+
+            } else {
+                throw new Exception("Parameters must be an array.");    
+            }
+
+        }
+
+        private function checkExists($field, $value)
+        {
+
+            // Connect Database
+            $Dbobj = new DBConnection(); 
+            $mysqli = $Dbobj->getDBConnect();
+
+            // Check if already exists
+            $checkExists = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."sla WHERE ".TABLE_PREFIX."sla.".$field." = '".$value."'");
+            $numRows = $checkExists->num_rows;
+
+            return $numRows;
+
+        }
+
+        private function insertRecord($string)
+        {
+            // Connect Database
+            $Dbobj = new DBConnection(); 
+            $mysqli = $Dbobj->getDBConnect();
+
+            // Check if already exists
+            $insertRecord = $mysqli->query($string);
+
+            if($insertRecord)
+            {
+                return "Success! Row inserted.";
+            } else {
+                throw new Exception("Something went wrong.");    
+            }
+        }
+
 }
 ?>
