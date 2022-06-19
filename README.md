@@ -6,6 +6,11 @@
  For more info, please go to their official website: https://osticket.com/
 </p>
 
+<p align="center">
+------------------------------------------------------------------<br>
+ ⚠️ v2.0.0 Coming soon! Major structural changes!⚠️<br>
+------------------------------------------------------------------
+</p>
 
 ## Tested Versions
 This api was tested in the following OST versions:
