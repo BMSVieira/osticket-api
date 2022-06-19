@@ -295,7 +295,7 @@ Fetch all departments by creation between two given dates.
 | `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
 ### 🔸 `[POST] [PUT]` SLA/Add
-Insert new data
+Add new data
 
 ```javascript
 {
@@ -339,7 +339,7 @@ Fetch faq info from all categories.
 | `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
 
 ### 🔸 `[GET]` FAQ/Specific Category
-You can fetch faq info from a specific category, for example:
+Fetch faq info from a specific category, for example:
 
 ```javascript
 {
