@@ -42,5 +42,10 @@ class Helper
         if(!in_array($_SERVER['REQUEST_METHOD'], $method)){
             throw new Exception($_SERVER['REQUEST_METHOD']." is not a valid request method");
         }     
-    }    
+    } 
+
+    // Check permissions 
+    public function checkPermission(){
+        if(CANCREATE == 0){ throw new Exception("Error! Your API Key is READ ONLY, it is no allowed to make any action.");}  
+    }     
 }

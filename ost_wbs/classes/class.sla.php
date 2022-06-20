@@ -102,6 +102,10 @@ class Sla
 
         public function add($parameters)
         {
+
+            // Check Permission
+            Helper::checkPermission();
+
             // Check Request method
             $validRequests = array("POST", "PUT");
             Helper::validRequest($validRequests);
@@ -136,8 +140,51 @@ class Sla
                 $addQuery .= "(".$paramOrder.", created, updated)";
                 $addQuery .= "VALUES(".$valuesOrder.", now(), now())"; 
 
-                // Send query to be inserted
-                return $this->insertRecord($addQuery);        
+                // Send query to be executed
+                return $this->execQuery($addQuery);        
+
+        }
+
+        public function delete($parameters)
+        {
+
+            // Check Permission
+            Helper::checkPermission();
+
+            // Check Request method
+            $validRequests = array("DELETE");
+            Helper::validRequest($validRequests);
+
+            // Expected parameters
+            $expectedParameters = array("id");
+
+            // Check if all paremeters are correct
+            self::checkRequest($parameters, $expectedParameters);
+
+                // Prepare query
+                $paramOrder = "";
+                $valuesOrder = "";
+
+                if($this->checkExists('id', $parameters["parameters"]['id']) == 0) { throw new Exception("Item does not exist."); }
+
+                foreach ($parameters["parameters"] as $key => $value) { 
+
+                    // Parameters order
+                    $paramOrder = $paramOrder.",".$key; 
+                    // Values order
+                    if(is_numeric($value)) { $valuesOrder = $valuesOrder.",".$value."";  } else { $valuesOrder = $valuesOrder.",'".$value."'";}
+                }
+
+                // Remove first comma
+                $paramOrder = substr($paramOrder, 1);
+                $valuesOrder = substr($valuesOrder, 1);
+
+                // final Query
+                $addQuery = "DELETE FROM ".TABLE_PREFIX."sla ";
+                $addQuery .= "WHERE id= ".$valuesOrder;
+
+                // Send query to be executed
+                return $this->execQuery($addQuery);
 
         }
 
@@ -190,7 +237,7 @@ class Sla
 
         }
 
-        private function insertRecord($string)
+        private function execQuery($string)
         {
             // Connect Database
             $Dbobj = new DBConnection(); 
@@ -201,7 +248,7 @@ class Sla
 
             if($insertRecord)
             {
-                return "Success! Row inserted.";
+                return "Success! Row 1 affected.";
             } else {
                 throw new Exception("Something went wrong.");    
             }

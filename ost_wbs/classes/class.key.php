@@ -30,6 +30,9 @@ class apiKey
         if(!$this->farray["isactive"] || APIKEY_RESTRICT && $this->farray["ipaddr"] != $_SERVER['REMOTE_ADDR'])
             throw new Exception("API key not found/active or source IP not authorized");
          
+        define('CANCREATE', $this->farray["can_create_tickets"]); // Can create
+        define('CANEXECUTE', $this->farray["can_exec_cron"]);   // Can execute
+
     } 
 
     function cancreate()

@@ -172,20 +172,5 @@ class Ticket
             return $returnArray;  
         }
 
-        public function add($parameters)
-        {
-            // Check Request method
-            $validRequests = array("POST", "PUT");
-            Helper::validRequest($validRequests);
-
-            return $this->insertRecord($parameters["parameters"]);
-        }
-
-        private function insertRecord($values)
-        {
-        
-    
-            return $values;
-        }
 }
 ?>
