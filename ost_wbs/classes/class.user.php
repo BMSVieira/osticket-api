@@ -3,6 +3,10 @@ class User
 {
         public function all($parameters)
         {
+            // Check Request method
+            $validRequests = array("GET");
+            Helper::validRequest($validRequests);
+
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
@@ -11,8 +15,9 @@ class User
                 // Sorte by Date
                 case "creationDate":
 
-                    $startDate = Helper::getFormatedDate($parameters["parameters"][0], "start");
-                    $endDate = Helper::getFormatedDate($parameters["parameters"][0], "end");
+                    // Get Start&End Date
+                    $startDate = $parameters['parameters']['start_date'];
+                    $endDate = $parameters['parameters']['end_date'];
 
                     // Query
                     $getUser = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."user WHERE ".TABLE_PREFIX."user.created >= '$startDate' and ".TABLE_PREFIX."user.created <= '$endDate'");
@@ -53,11 +58,14 @@ class User
 
         public function specific($parameters)
         {
-           
+            // Check Request method
+            $validRequests = array("GET");
+            Helper::validRequest($validRequests);
+
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
-            $uID = $parameters["parameters"][0];
+            $uID = $parameters["parameters"]["id"];
 
             // set query
             $getUser = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."user WHERE ".TABLE_PREFIX."user.id = '$uID'");

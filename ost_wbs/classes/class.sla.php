@@ -3,6 +3,10 @@ class Sla
 {
         public function all($parameters)
         {
+            // Check Request method
+            $validRequests = array("GET");
+            Helper::validRequest($validRequests);
+
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
@@ -11,8 +15,9 @@ class Sla
                 // Sorte by Date
                 case "creationDate":
 
-                    $startDate = Helper::getFormatedDate($parameters["parameters"][0], "start");
-                    $endDate = Helper::getFormatedDate($parameters["parameters"][0], "end");
+                    // Get Start&End Date
+                    $startDate = $parameters['parameters']['start_date'];
+                    $endDate = $parameters['parameters']['end_date'];
 
                     // Query
                     $getSla = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."sla WHERE ".TABLE_PREFIX."sla.created >= '$startDate' and ".TABLE_PREFIX."sla.created <= '$endDate'");
@@ -59,7 +64,7 @@ class Sla
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
-            $uID = $parameters["parameters"][0];
+            $uID = $parameters["parameters"]["id"];
 
             // set query
             $getSla = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."sla WHERE ".TABLE_PREFIX."sla.id = '$uID'");
@@ -93,5 +98,161 @@ class Sla
             // Return values
             return $returnArray;  
         }
+
+
+        public function add($parameters)
+        {
+
+            // Check Permission
+            Helper::checkPermission();
+
+            // Check Request method
+            $validRequests = array("POST", "PUT");
+            Helper::validRequest($validRequests);
+
+            // Expected parameters
+            $expectedParameters = array("name", "flags", "grace_period", "schedule_id", "notes");
+
+            // Check if all paremeters are correct
+            self::checkRequest($parameters, $expectedParameters);
+
+                // Check if row already exists
+                if($this->checkExists('name', $parameters["parameters"]['name'])) { throw new Exception("Item Already exists"); }
+
+                // Prepare query
+                $paramOrder = "";
+                $valuesOrder = "";
+
+                foreach ($parameters["parameters"] as $key => $value) { 
+
+                    // Parameters order
+                    $paramOrder = $paramOrder.",".$key; 
+                    // Values order
+                    if(is_numeric($value)) { $valuesOrder = $valuesOrder.",".$value."";  } else { $valuesOrder = $valuesOrder.",'".$value."'";}
+                }
+
+                // Remove first comma
+                $paramOrder = substr($paramOrder, 1);
+                $valuesOrder = substr($valuesOrder, 1);
+
+                // final Query
+                $addQuery = "INSERT INTO ".TABLE_PREFIX."sla ";
+                $addQuery .= "(".$paramOrder.", created, updated)";
+                $addQuery .= "VALUES(".$valuesOrder.", now(), now())"; 
+
+                // Send query to be executed
+                return $this->execQuery($addQuery);        
+
+        }
+
+        public function delete($parameters)
+        {
+
+            // Check Permission
+            Helper::checkPermission();
+
+            // Check Request method
+            $validRequests = array("DELETE");
+            Helper::validRequest($validRequests);
+
+            // Expected parameters
+            $expectedParameters = array("id");
+
+            // Check if all paremeters are correct
+            self::checkRequest($parameters, $expectedParameters);
+
+                // Prepare query
+                $paramOrder = "";
+                $valuesOrder = "";
+
+                if($this->checkExists('id', $parameters["parameters"]['id']) == 0) { throw new Exception("Item does not exist."); }
+
+                foreach ($parameters["parameters"] as $key => $value) { 
+
+                    // Parameters order
+                    $paramOrder = $paramOrder.",".$key; 
+                    // Values order
+                    if(is_numeric($value)) { $valuesOrder = $valuesOrder.",".$value."";  } else { $valuesOrder = $valuesOrder.",'".$value."'";}
+                }
+
+                // Remove first comma
+                $paramOrder = substr($paramOrder, 1);
+                $valuesOrder = substr($valuesOrder, 1);
+
+                // final Query
+                $addQuery = "DELETE FROM ".TABLE_PREFIX."sla ";
+                $addQuery .= "WHERE id= ".$valuesOrder;
+
+                // Send query to be executed
+                return $this->execQuery($addQuery);
+
+        }
+
+        public function checkRequest($parameters, $expectedParameters)
+        {
+
+            // Error array 
+            $errors = array();
+
+            // Check if parameters is an array
+            if(gettype($parameters["parameters"]) == 'array'){
+
+                // Check for empty fields
+                foreach ($expectedParameters as $key => $value) {
+                    if(empty($parameters["parameters"][$value])) {
+                        array_push($errors,"Empty or Incorrect fields were given.");
+                    }
+                }
+
+                // Check for unkown or unexpected fields
+                foreach ($parameters["parameters"] as $key => $value) {
+                    if (!in_array($key, $expectedParameters)) {
+                        array_push($errors,"Unexpectec fields given.");
+                    }
+                }
+
+                // If no errors, continue
+                if(count($errors) > 0){
+                    throw new Exception("Empty or Incorrect fields were given, read documentation for more info."); 
+                } 
+
+            } else {
+                throw new Exception("Parameters must be an array.");    
+            }
+
+        }
+
+        private function checkExists($field, $value)
+        {
+
+            // Connect Database
+            $Dbobj = new DBConnection(); 
+            $mysqli = $Dbobj->getDBConnect();
+
+            // Check if already exists
+            $checkExists = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."sla WHERE ".TABLE_PREFIX."sla.".$field." = '".$value."'");
+            $numRows = $checkExists->num_rows;
+
+            return $numRows;
+
+        }
+
+        private function execQuery($string)
+        {
+            // Connect Database
+            $Dbobj = new DBConnection(); 
+            $mysqli = $Dbobj->getDBConnect();
+
+            // Check if already exists
+            $insertRecord = $mysqli->query($string);
+
+            if($insertRecord)
+            {
+                return "Success! Row 1 affected.";
+            } else {
+                throw new Exception("Something went wrong.");    
+            }
+        }
+
 }
 ?>

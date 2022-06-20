@@ -25,14 +25,25 @@ class OSTicketAPI
 {
 	public static function open($request)
 	{
-        // Parameters
-        $key = array("apikey" => $request['apikey']);
-        $classe = ucfirst($request['query']);
-        $method = $request['condition'];
+        // Header
+        $key = array("apikey" => getallheaders()["apikey"]);
+        
+        // Body
+        $requestBody = json_decode(file_get_contents('php://input'), true);
+            
+            // Request Data
+            $classe = ucfirst($requestBody['query']);
+            $method = $requestBody['condition'];
+            $sort = (isset($requestBody['sort'])) ? $requestBody['sort']:'none';
 
-        $sort = (isset($request['sort'])) ? $request['sort']:'none';
-
-        $parameters = (isset($request['parameters'])) ? explode(",", $request['parameters']):'none';
+            if($requestBody['parameters'].isArray)
+            {
+             $parameters = $requestBody['parameters'];
+            } else {
+            $parameters = (isset($requestBody['parameters'])) ? explode(",", $requestBody['parameters']):'none';
+            }
+     
+        // Final Parameters
         $fparams = array("sort" => $sort, "parameters" => $parameters);
 
         try {

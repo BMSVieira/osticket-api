@@ -17,7 +17,7 @@ class Helper
         return true;
     }
 
-    	// Get formated date from string
+    // Get formated date from string
     public function getFormatedDate($fullstring, $condition)
     {
 
@@ -35,6 +35,31 @@ class Helper
     	} 
 
     	return $result;
+    } 
 
+    // Check if request method is valid
+    public function validRequest($method){
+        if(!in_array($_SERVER['REQUEST_METHOD'], $method)){
+            throw new Exception($_SERVER['REQUEST_METHOD']." is not a valid request method");
+        }     
+    } 
+
+    // Check permissions 
+    public function checkPermission(){
+        if(CANCREATE == 0){ throw new Exception("Error! Your API Key is READ ONLY, it is no allowed to make any action.");}  
+    } 
+
+    // Get last ID
+    public function get_last_id($table, $field)
+    {
+        // Connect Database
+        $Dbobj = new DBConnection(); 
+        $mysqli = $Dbobj->getDBConnect();
+
+        // Get last inserted ID
+        $getLastId = $mysqli->query("SELECT ".$field." FROM ".TABLE_PREFIX."".$table." ORDER BY ".$field." DESC LIMIT 1");
+        $printLastId = $getLastId->fetch_object();
+
+        return $printLastId->$field;
     }    
 }

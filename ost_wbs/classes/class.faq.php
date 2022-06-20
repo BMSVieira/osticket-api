@@ -5,6 +5,10 @@ class Faq
 
     public function all($parameters)
     {
+        // Check Request method
+        $validRequests = array("GET");
+        Helper::validRequest($validRequests);
+
         // Connect Database
         $Dbobj = new DBConnection(); 
         $mysqli = $Dbobj->getDBConnect();
@@ -36,7 +40,7 @@ class Faq
         
         foreach ($result as $key=>$category) {
             
-            if ($result[$key]['faqs'] = $this->specific(['parameters'=>[0=>$category['id']]],TRUE) )
+            if ($result[$key]['faqs'] = $this->specific(['parameters'=>["id"=>$category['id']]],TRUE) )
             {
                 
             } else {
@@ -75,10 +79,14 @@ class Faq
 
     public function specific($parameters,$exception = FALSE)
     {
+        // Check Request method
+        $validRequests = array("GET");
+        Helper::validRequest($validRequests);
+
         // Connect Database
         $Dbobj = new DBConnection(); 
         $mysqli = $Dbobj->getDBConnect();
-        $cID = $parameters["parameters"][0];
+        $cID = $parameters["parameters"]["id"];
 
         // Query
         $getFaq = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."faq WHERE category_id = " . $cID . " AND ispublished = 1");

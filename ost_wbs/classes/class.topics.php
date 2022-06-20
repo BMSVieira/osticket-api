@@ -5,6 +5,10 @@ class Topics
 
     public function all($parameters)
     {
+        // Check Request method
+        $validRequests = array("GET");
+        Helper::validRequest($validRequests);
+
         // Connect Database
         $Dbobj = new DBConnection(); 
         $mysqli = $Dbobj->getDBConnect();
@@ -48,10 +52,14 @@ class Topics
 
     public function specific($parameters)
     {
+        // Check Request method
+        $validRequests = array("GET");
+        Helper::validRequest($validRequests);
+
         // Connect Database
         $Dbobj = new DBConnection(); 
         $mysqli = $Dbobj->getDBConnect();
-        $tID = $parameters["parameters"][0];
+        $tID = $parameters["parameters"]["id"];
 
         // Query
         $getTopics = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."help_topic WHERE ispublic = 1 AND topic_id = " . $tID . " LIMIT 1");

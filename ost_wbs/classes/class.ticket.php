@@ -40,6 +40,10 @@ class Ticket
 
         public function all($parameters)
         {
+            // Check Request method
+            $validRequests = array("GET");
+            Helper::validRequest($validRequests);
+
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
@@ -48,8 +52,9 @@ class Ticket
                 // Sorte by Date
                 case "creationDate":
 
-                    $startDate = Helper::getFormatedDate($parameters["parameters"][0], "start");
-                    $endDate = Helper::getFormatedDate($parameters["parameters"][0], "end");
+                    // Get Start&End Date
+                    $startDate = $parameters['parameters']['start_date'];
+                    $endDate = $parameters['parameters']['end_date'];
 
                     // Query
                     $getTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."ticket INNER JOIN ".TABLE_PREFIX."ticket__cdata ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."ticket__cdata.ticket_id INNER JOIN ".TABLE_PREFIX."thread_entry ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."thread_entry.thread_id WHERE ".TABLE_PREFIX."ticket.created >= '$startDate' and ".TABLE_PREFIX."ticket.created <= '$endDate'");
@@ -59,7 +64,7 @@ class Ticket
                 case "status":
 
                     // Check if ticket status is available
-                    $tStatus = $parameters["parameters"][0];
+                    $tStatus = $parameters["parameters"]["status"];
                     Helper::checkTicketStatus($tStatus);
 
                     // 0 value does not exist, so it is equal to "all records"
@@ -77,11 +82,11 @@ class Ticket
                 case "statusByDate":
 
                     // Get Start&End Date
-                    $startDate = Helper::getFormatedDate($parameters["parameters"][0], "start");
-                    $endDate = Helper::getFormatedDate($parameters["parameters"][0], "end");
+                    $startDate = $parameters['parameters']['start_date'];
+                    $endDate = $parameters['parameters']['end_date'];
 
                     // Check valid ticket status
-                    $tStatus = $parameters["parameters"][1];
+                    $tStatus = $parameters["parameters"]["status"];
                     Helper::checkTicketStatus($tStatus);
 
                     // Query
@@ -137,11 +142,14 @@ class Ticket
 
         public function specific($parameters)
         {
-           
+            // Check Request method
+            $validRequests = array("GET");
+            Helper::validRequest($validRequests);
+
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
-            $tID = $parameters["parameters"][0];
+            $tID = $parameters["parameters"]['id'];
 
             $getTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."ticket INNER JOIN ".TABLE_PREFIX."ticket__cdata ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."ticket__cdata.ticket_id INNER JOIN ".TABLE_PREFIX."thread_entry ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."thread_entry.thread_id WHERE ".TABLE_PREFIX."ticket.ticket_id = '$tID' OR ".TABLE_PREFIX."ticket.number = '$tID'");
 
@@ -162,6 +170,183 @@ class Ticket
             
             // Return values
             return $returnArray;  
+        }
+
+        public function add($parameters)
+        {
+
+            // Check Permission
+            Helper::checkPermission();
+
+            // Check Request method
+            $validRequests = array("POST", "PUT");
+            Helper::validRequest($validRequests);
+
+            // Expected parameters
+            $expectedParameters = array("title", "subject", "priority_id", "status_id", "dept_id", "sla_id", "topic_id");
+
+            // Check if all paremeters are correct
+            self::checkRequest($parameters, $expectedParameters);
+
+                // Prepare query
+
+                $last_ticket_id = Helper::get_last_id("ticket", "ticket_id");
+                $ticket_number = $last_ticket_id+1;
+                $ticker_number = "API".$ticket_number;
+
+                // table - 'ticket'
+                $ticket = 'insert into '.TABLE_PREFIX.'ticket (';
+                $ticket .= 'number,';
+                $ticket .= 'user_id,';
+                $ticket .= 'status_id,';
+                $ticket .= 'dept_id,';
+                $ticket .= 'sla_id,';
+                $ticket .= 'topic_id,';
+                $ticket .= 'source,';
+                $ticket .= 'isoverdue,';
+                $ticket .= 'isanswered,';
+                $ticket .= 'lastupdate,';
+                $ticket .= 'created,';
+                $ticket .= 'updated) VALUES ('; 
+                $ticket .= '"'.$ticker_number.'",';   
+                $ticket .= '1,';
+                $ticket .= ''.$parameters["parameters"]["status_id"].',';
+                $ticket .= ''.$parameters["parameters"]["dept_id"].',';
+                $ticket .= ''.$parameters["parameters"]["sla_id"].',';
+                $ticket .= ''.$parameters["parameters"]["topic_id"].',';
+                $ticket .= '"API",';
+                $ticket .= '0,';
+                $ticket .= '0,';   
+                $ticket .= 'now(),';                  
+                $ticket .= 'now(),';    
+                $ticket .= 'now())';    
+
+                // Send query to be executed
+                $this->execQuery($ticket); 
+
+                // Get inserted ticket ID
+                $last_ticket_id = Helper::get_last_id("ticket", "ticket_id");
+
+                // table - 'ticket__cdata'
+                $ticket__cdata = 'insert into '.TABLE_PREFIX.'ticket__cdata (';
+                $ticket__cdata .= 'ticket_id,';
+                $ticket__cdata .= 'subject,';
+                $ticket__cdata .= 'priority) VALUES (';    
+                $ticket__cdata .= ''.$last_ticket_id.',';
+                $ticket__cdata .= '"'.$parameters["parameters"]["subject"].'",';
+                $ticket__cdata .= ''.$parameters["parameters"]["priority_id"].')';
+
+                // Send query to be executed
+                $this->execQuery($ticket__cdata); 
+
+                // table - 'thread'
+                $thread = 'insert into '.TABLE_PREFIX.'thread (';
+                $thread .= 'object_id,';
+                $thread .= 'object_type,';
+                $thread .= 'created) VALUES (';    
+                $thread .= ''.$last_ticket_id.',';
+                $thread .= '"T",';
+                $thread .= 'now())';    
+
+                // Send query to be executed
+                $this->execQuery($thread); 
+
+                // Get inserted thread ID
+                $last_thread_id = Helper::get_last_id("thread", "id");
+
+                // table - 'thread_entry'
+                $thread_entry = 'insert into '.TABLE_PREFIX.'thread_entry (';
+                $thread_entry .= 'thread_id,';
+                $thread_entry .= 'user_id,';                
+                $thread_entry .= 'type,';
+                $thread_entry .= 'poster,';
+                $thread_entry .= 'flags,';
+                $thread_entry .= 'source,';
+                $thread_entry .= 'title,';
+                $thread_entry .= 'body,';
+                $thread_entry .= 'created,';
+                $thread_entry .= 'updated) VALUES (';    
+                $thread_entry .= ''.$last_thread_id.',';
+                $thread_entry .= '1,';
+                $thread_entry .= '"M",';
+                $thread_entry .= '"osTicket Support",';
+                $thread_entry .= '65,';
+                $thread_entry .= '"API",';
+                $thread_entry .= '"'.$parameters["parameters"]["title"].'",';
+                $thread_entry .= '"<p>'.$parameters["parameters"]["subject"].'</p>",';
+                $thread_entry .= 'now(),';    
+                $thread_entry .= 'now())';
+
+                // Send query to be executed
+                $this->execQuery($thread_entry);
+
+                return $last_ticket_id;      
+
+        }
+
+        public function checkRequest($parameters, $expectedParameters)
+        {
+
+            // Error array 
+            $errors = array();
+
+            // Check if parameters is an array
+            if(gettype($parameters["parameters"]) == 'array'){
+
+                // Check for empty fields
+                foreach ($expectedParameters as $key => $value) {
+                    if(empty($parameters["parameters"][$value])) {
+                        array_push($errors,"Empty or Incorrect fields were given.");
+                    }
+                }
+
+                // Check for unkown or unexpected fields
+                foreach ($parameters["parameters"] as $key => $value) {
+                    if (!in_array($key, $expectedParameters)) {
+                        array_push($errors,"Unexpectec fields given.");
+                    }
+                }
+
+                // If no errors, continue
+                if(count($errors) > 0){
+                    throw new Exception("Empty or Incorrect fields were given, read documentation for more info."); 
+                } 
+
+            } else {
+                throw new Exception("Parameters must be an array.");    
+            }
+
+        }
+
+        private function checkExists($field, $value)
+        {
+
+            // Connect Database
+            $Dbobj = new DBConnection(); 
+            $mysqli = $Dbobj->getDBConnect();
+
+            // Check if already exists
+            $checkExists = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."sla WHERE ".TABLE_PREFIX."sla.".$field." = '".$value."'");
+            $numRows = $checkExists->num_rows;
+
+            return $numRows;
+
+        }
+
+        private function execQuery($string)
+        {
+            // Connect Database
+            $Dbobj = new DBConnection(); 
+            $mysqli = $Dbobj->getDBConnect();
+
+            // Run query
+            $insertRecord = $mysqli->query($string);
+
+            if($insertRecord){
+                return "Success! Row 1 affected.";
+            } else {
+                throw new Exception("Something went wrong.");    
+            }
         }
 }
 ?>

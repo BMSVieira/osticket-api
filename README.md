@@ -6,81 +6,115 @@
  For more info, please go to their official website: https://osticket.com/
 </p>
 
-<p align="center">
-------------------------------------------------------------------<br>
- ⚠️ v2.0.0 Coming soon! Major structural changes!⚠️<br>
-------------------------------------------------------------------
-</p>
-
-## Tested Versions
-This api was tested in the following OST versions:
-
-| Version |
-| --- |
-| `v1.15.8`|
-| `v1.15.3.1`|
-| `v1.14.3`|
-
 ## How to Use
-To use OSTicket Unofficial API you have to place the `ost_wbs` directory in the root of OSTicket server.<br>
+To use OSTicket Unofficial API you have to place the `ost_wbs` directory in the root of OSTicket server. <br>
 Then, go to `ost_wbs > config.php` and change the `DB credentials` and the `table prefix`.
 
-Use the following URL: 
+Use the following base URL: 
 ```javascript
-{YOUR-DOMAIN}/ost_wbs/?
+{YOUR-DOMAIN}/upload/ost_wbs/
 ```
 
-<b>NOTE</b>: If you dont know the credentials, go to `/include/ost-config.php`. That is the main config file for OSTicket system.
+<b>NOTE</b>: If you dont know the credentials, go to `upload/include/ost-config.php`. That is the main config file for OSTicket system.
 
 ## Authentication
-In all requests, the API key that was created in the OSTicket system must be sent to authenticate the user.<br>
+In all requests, the API key that was created in the OSTicket system must be sent in the `header` to authenticate the user.<br>
 
-| Option | Type | Mandatory | Description
-| --- | --- |  :-: |  --- |
-| `apikey`| string | ✅ | Official API-Key generated in OSTicket System |
+| Option | Mandatory | Description
+| --- | :-: |  --- |
+| `apikey` | ✔️ | Official API-Key generated in OSTicket System |
 
-<b>Example</b>:
-
-```javascript
-{YOUR-DOMAIN}/ost_wbs/?apikey={API-KEY}
-```
-
-### Check IP Authorization
+## Check IP Authorization
 To use the API from a specific IP Address, go to `ost_wbs > config.php` and set `API KEY RESTRICT` to `True`
+
+## Request Structure
+All requests must have the following structure.
+
+| Type | format | Description |
+| --- | --- |  :-: |
+| `header`| default | Authentication |
+| `body`| json | Parameters |
+
+Output format: `json`
 
 <br>
 
-## 🟩 Ticket Info
+## 🔵 Ticket
 
-### 🔷 Specific Ticket
-You can fetch all info from a specific ticket using the ID or ID Number, for example:
+## 🟡 `[POST] [PUT]` Ticket/Add
+
+Add new data to database
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=ticket&condition=specific&parameters={TICKET-ID/TICKET-NUMBER}
+{
+"query":"ticket",
+"condition":"add",
+"parameters":{
+    "title":"Ticket Title",
+    "subject":"<p>Ticket Body</p>",
+    "priority_id":2,
+    "status_id":1,
+    "dept_id":1,
+    "sla_id":1,
+    "topic_id":1
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
-| `parameters`| `int` or `string` | `ID` or `Number` | ✅ | Indicates specific ID or Number |
+| `query`| `string` | `ticket` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `add` | ✔️ | Indicates the condition of the request |
+| `parameters` > `title`| `string` | `Ticket Title` | ✔️ | Ticket Title |
+| `parameters` > `subject`| `string` | `Ticket Body` | ✔️ | Ticket Body |
+| `parameters` > `priority_id`| `int` | `ID` | ✔️ | Priority ID |
+| `parameters` > `status_id`| `int` | `ID` | ✔️ | Status ID |
+| `parameters` > `dept_id`| `int` | `ID` | ✔️ | Department ID |
+| `parameters` > `sla_id`| `int` | `ID` | ✔️ | SLA ID |
+| `parameters` > `topic_id`| `int` | `ID` | ✔️ | Topic ID |
 
+## 🟡 `[GET]` Ticket/Specific
 
-### 🔷 By Status 
-You can fetch all tickets based on the current status, for example:
+Fetch all info from a specific ticket using the ID or ID Number.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=status&parameters={TICKET-STATUS-ID}
+{
+"query":"ticket",
+"condition":"specific",
+"parameters":{
+    "id":1
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `status` | ✅ | Indicates the type of search |
-| `parameters`| `int` or `string` | `Ticket Status ID` | ✅ | Ticket status ID you want to search for |
+| `query`| `string` | `ticket` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
+| `parameters` > `id`| `int` or `string` | `ID` or `Number` | ✔️ | Indicates specific ID or Number |
+
+
+## 🟡 `[GET]` Ticket/Status 
+
+Fetch all tickets based on the current status.
+
+```javascript
+{
+"query":"ticket",
+"condition":"all",
+"sort": "status",
+"parameters":{
+    "status":1
+    }
+}
+```
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `query`| `string` | `ticket` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
+| `sort`|  `string` | `status` | ✔️ | Indicates the type of search |
+| `parameters` > `status` | `int` | `Ticket Status ID` | ✔️ | Ticket status ID you want to search for |
 
 Available ticket status:
 
@@ -95,199 +129,333 @@ Available ticket status:
 | `6`| `On Going` |
 | `7`| `Pending` |
 
-### 🔷 Between Dates
-You can fetch all tickets by creation between two given dates, for example:
+## 🟡 `[GET]` Ticket/Creation Date
+
+Fetch all tickets by creation between two given dates.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+{
+"query":"ticket",
+"condition":"all",
+"sort": "creationDate",
+"parameters":{
+    "start_date":"1990-01-01 00:00:00",
+    "end_date":"2022-06-17 23:59:59"
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
-| `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all tickets will be fetched |
+| `query`| `string` | `ticket` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
+| `sort`|  `string` | `creationDate` | ✔️ | Indicates the type of search |
+| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
+| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
-### 🔷 Between Dates by Status
-You can fetch all tickets by creation between two given dates and by status, for example:
+## 🟡 `[GET]` Ticket/Creation Date by Status
+
+Fetch all tickets by creation between two given dates and by status.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=ticket&condition=all&sort=statusByDate&parameters={START-DATEtoEND-DATE},{TICKET-STATUS-ID}
+{
+"query":"ticket",
+"condition":"all",
+"sort": "statusByDate",
+"parameters":{
+    "status":1,
+    "start_date":"1990-01-01 00:00:00",
+    "end_date":"2022-06-17 23:59:59"
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `ticket` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `statusByDate` | ✅ | Indicates the type of search |
-| `parameters`| `string` | `1990-01-01to2000-01-01`,`2` | ✅ | Date interval and status by wich all tickets will be fetched |
+| `query`| `string` | `ticket` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
+| `sort`|  `string` | `statusByDate` | ✔️ | Indicates the type of search |
+| `parameters` > `status`| `int` | `Ticket Status ID` | ✔️ | Ticket Status  |
+| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
+| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
+## 🔵 User
 
-## 🟩 User Info
+## 🟡 `[GET]` User/Specific
 
-### 🔷 Specific User
-You can fetch all info from a specific user using the ID, for example:
+Fetch all info from a specific user using the ID.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=user&condition=specific&parameters={USER-ID}
+{
+"query":"user",
+"condition":"specific",
+"parameters":{
+    "id":2
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `user` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
-| `parameters`| `int` | `User ID` | ✅ | Indicates specific ID |
+| `query`| `string` | `user` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
+| `parameters` > `id`| `int` | `User ID` | ✔️ | Indicates specific ID |
 
-### 🔷 Between Dates
-You can fetch all user by creation between two given dates, for example:
+## 🟡 `[GET]` User/Creation Date
+Fetch all user by creation between two given dates.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=user&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+{
+"query":"user",
+"condition":"all",
+"sort": "creationDate",
+"parameters":{
+    "start_date":"1990-01-01 00:00:00",
+    "end_date":"2022-06-17 23:59:59"
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `user` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
-| `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all users will be fetched |
+| `query`| `string` | `user` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
+| `sort`|  `string` | `creationDate` | ✔️ | Indicates the type of search |
+| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
+| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
-## 🟩 Department Info
+## 🔵 Department
 
-### 🔷 Specific Department
-You can fetch all info from a specific deparment using the ID, for example:
+## 🟡 `[GET]` Department/Specific
+
+Fetch all info from a specific deparment using the ID.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=department&condition=specific&parameters={DEPARTMENT-ID}
+{
+"query":"department",
+"condition":"specific",
+"parameters":{
+    "id":1
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `department` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
-| `parameters`| `int` | `Department ID` | ✅ | Indicates specific ID |
+| `query`| `string` | `department` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
+| `parameters` > `id`| `int` | `Department ID` | ✔️ | Department ID |
 
-### 🔷 Between Dates
-You can fetch all departments by creation between two given dates, for example:
+## 🟡 `[GET]` Department/Creation Date
+
+Fetch all departments by creation between two given dates.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+{
+"query":"department",
+"condition":"all",
+"sort": "creationDate",
+"parameters":{
+    "start_date":"1990-01-01 00:00:00",
+    "end_date":"2022-06-17 23:59:59"
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `department` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
-| `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all departments will be fetched |
+| `query`| `string` | `department` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
+| `sort`|  `string` | `creationDate` | ✔️ | Indicates the type of search |
+| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
+| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
-### 🔷 By Name
-You can fetch all info from published top level departments sorted by name, for example:
+## 🟡 `[GET]` Department/Name
+
+Fetch all info from published top level departments sorted by name.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=department&condition=all&sort=name
+{
+"query":"department",
+"condition":"all",
+"sort": "name"
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `department` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `name` | ✅ | Indicates the type of search |
+| `query`| `string` | `department` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
+| `sort`|  `string` | `name` | ✔️ | Indicates the type of search |
 
 
-## 🟩 SLA Info
+## 🔵 SLA
 
-### 🔷 Specific SLA
-You can fetch all info from a specific sla using the ID, for example:
+## 🟡 `[GET]` SLA/Specific
+
+Fetch all info from a specific sla using the ID.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=sla&condition=specific&parameters={SLA-ID}
+{
+"query":"sla",
+"condition":"specific",
+"parameters":{
+    "id":1
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `sla` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
-| `parameters`| `int` | `SLA ID` | ✅ | Indicates specific ID |
+| `query`| `string` | `sla` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
+| `parameters` > `id`| `int` | `SLA ID` | ✔️ | SLA ID |
 
-### 🔷 Between Dates
-You can fetch all departments by creation between two given dates, for example:
+## 🟡 `[GET]` SLA/Creation Date
+
+Fetch all departments by creation between two given dates.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=sla&condition=all&sort=creationDate&parameters={START-DATEtoEND-DATE}
+{
+"query":"sla",
+"condition":"all",
+"sort":"creationDate",
+"parameters":{
+    "start_date":"1990-01-01 00:00:00",
+    "end_date":"2022-06-17 23:59:59"
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `sla` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
-| `sort`|  `string` | `creationDate` | ✅ | Indicates the type of search |
-| `parameters`| `string` | `1990-01-01to2000-01-01` | ✅ | Date interval that all SLAs will be fetched |
+| `query`| `string` | `sla` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
+| `sort`|  `string` | `creationDate` | ✔️ | Indicates the type of search |
+| `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
+| `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
-## 🟩 Faq Info
+## 🟡 `[POST] [PUT]` SLA/Add
 
-### 🔷 All Categories
-You can fetch faq info from all categories, for example:
+Add new data to database
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=faq&condition=all
+{
+"query":"sla",
+"condition":"add",
+"parameters":{
+    "name":"SLA Name",
+    "flags":1,
+    "grace_period":1,
+    "schedule_id":1,
+    "notes": "This is a note"
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `faq` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
+| `query`| `string` | `sla` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `add` | ✔️ | Indicates the condition of the request |
+| `parameters` > `name`| `string` | `Name` | ✔️ | SLA ID |
+| `parameters` > `flags`| `int` | `Status` / `Transient` / `Ticket Overdue Alerts` | ✔️ | Flag Status |
+| `parameters` > `grace_period`| `int` | `Grace Period` | ✔️ | Grace Period |
+| `parameters` > `schedule_id`| `int` | `Shedule` | ✔️ | Shedule |
+| `parameters` > `notes`| `string` | `Notes` | ✔️ | Notes |
 
-### 🔷 Specific Category
-You can fetch faq info from a specific category, for example:
+## 🟡 `[DELETE]` SLA/Delete
+
+Delete data from database
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=faq&condition=specific&parameters={Category-ID}
+{
+"query":"sla",
+"condition":"delete",
+"parameters":{
+    "id":1
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `faq` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
-| `parameters`| `int` | `Category ID` | ✅ | Indicates specific ID |
+| `query`| `string` | `sla` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `delete` | ✔️ | Indicates the condition of the request |
+| `parameters` > `id`| `int` | `SLA ID` | ✔️ | SLA ID |
 
-## 🟩 Topic Info
+## 🔵 FAQ
 
-### 🔷 All Topics
-You can fetch topic info, for example:
+## 🟡 `[GET]` FAQ/All
+
+Fetch faq info from all categories.
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=topics&condition=all
+{
+"query":"faq",
+"condition":"all"
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `topic` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `all` | ✅ | Indicates the condition of the request |
+| `query`| `string` | `faq` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `all` | ✔️ | Indicates the condition of the request |
 
-### 🔷 Specific Topic
-You can fetch info for a specific topic, for example:
+## 🟡 `[GET]` FAQ/Specific Category
+
+Fetch faq info from a specific category, for example:
 
 ```javascript
-/ost_wbs/?apikey={API-KEY}&query=topics&condition=specific&parameters={Topic-ID}
+{
+"query":"faq",
+"condition":"specific",
+"parameters":{
+    "id":1
+    }
+}
 ```
 
 | Option | Type | value | Mandatory | Description
 | --- | --- |  :-: | :-: |  --- |
-| `apikey`| `string` | API-Key |  ✅ | Official API-Key generated in OSTicket System |
-| `query`| `string` | `topic` | ✅ | Indicates the content of the request |
-| `condition`| `string` | `specific` | ✅ | Indicates the condition of the request |
-| `parameters`| `int` | `Topic ID` | ✅ | Indicates specific ID |
+| `apikey`| `string` | API-Key |  ✔️ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `faq` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
+| `parameters` > `id`| `int` | `Category ID` | ✔️ | Category ID |
+
+## 🔵 Topic
+
+## 🟡 `[GET]` Topic/All
+
+Fetch all topics.
+
+```javascript
+{
+"query":"topics",
+"condition":"all"
+}
+```
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `apikey`| `string` | API-Key |  ✔️ | Official API-Key generated in OSTicket System |
+| `query`| `string` | `topic` | ✔️ | Indicates the content of the request |
+
+## 🟡 `[GET]` Topic/Specific
+
+Fetch info for a specific topic.
+
+```javascript
+{
+"query":"topics",
+"condition":"specific",
+"parameters":{
+    "id":1
+    }
+}
+```
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `query`| `string` | `topic` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `specific` | ✔️ | Indicates the condition of the request |
+| `parameters` > `id`| `int` | `Topic ID` | ✔️ | Topic ID |
