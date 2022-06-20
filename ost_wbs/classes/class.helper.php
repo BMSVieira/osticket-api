@@ -47,5 +47,19 @@ class Helper
     // Check permissions 
     public function checkPermission(){
         if(CANCREATE == 0){ throw new Exception("Error! Your API Key is READ ONLY, it is no allowed to make any action.");}  
-    }     
+    } 
+
+    // Get last ID
+    public function get_last_id($table, $field)
+    {
+        // Connect Database
+        $Dbobj = new DBConnection(); 
+        $mysqli = $Dbobj->getDBConnect();
+
+        // Get last inserted ID
+        $getLastId = $mysqli->query("SELECT ".$field." FROM ".TABLE_PREFIX."".$table." ORDER BY ".$field." DESC LIMIT 1");
+        $printLastId = $getLastId->fetch_object();
+
+        return $printLastId->$field;
+    }    
 }
