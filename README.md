@@ -129,7 +129,7 @@ Fetch all tickets by creation between two given dates and by status.
 {
 "query":"ticket",
 "condition":"all",
-"sort": "status",
+"sort": "statusByDate",
 "parameters":{
     "status":1,
     "start_date":"1990-01-01 00:00:00",
