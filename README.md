@@ -41,6 +41,38 @@ Output format: `json`
 
 ## 🔵 Ticket
 
+## 🟡 `[POST] [PUT]` Ticket/Add
+
+Add new data to database
+
+```javascript
+{
+"query":"ticket",
+"condition":"add",
+"parameters":{
+    "title":"Ticket Title",
+    "subject":"<p>Ticket Body</p>",
+    "priority_id":2,
+    "status_id":1,
+    "dept_id":1,
+    "sla_id":1,
+    "topic_id":1
+    }
+}
+```
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `query`| `string` | `ticket` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `add` | ✔️ | Indicates the condition of the request |
+| `parameters` > `title`| `string` | `Ticket Title` | ✔️ | Ticket Title |
+| `parameters` > `subject`| `string` | `Ticket Body` | ✔️ | Ticket Body |
+| `parameters` > `priority_id`| `int` | `ID` | ✔️ | Priority ID |
+| `parameters` > `status_id`| `int` | `ID` | ✔️ | Status ID |
+| `parameters` > `dept_id`| `int` | `ID` | ✔️ | Department ID |
+| `parameters` > `sla_id`| `int` | `ID` | ✔️ | SLA ID |
+| `parameters` > `topic_id`| `int` | `ID` | ✔️ | Topic ID |
+
 ## 🟡 `[GET]` Ticket/Specific
 
 Fetch all info from a specific ticket using the ID or ID Number.
