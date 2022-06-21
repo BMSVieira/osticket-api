@@ -319,6 +319,30 @@ Fetch all info from published top level departments sorted by name.
 | `sort`|  `string` | `name` | ✔️ | Indicates the type of search |
 
 
+## 🟡 `[POST] [PUT]` Department/Add
+
+Add new data to database
+
+```javascript
+{
+"query":"department",
+"condition":"add",
+"parameters":{
+    "name":"Department Name",
+    "signature":"Department Signature",
+    "flags":4
+    }
+}
+```
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `query`| `string` | `sla` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `add` | ✔️ | Indicates the condition of the request |
+| `parameters` > `name`| `string` | `Department Name` | ✔️ | Department Name |
+| `parameters` > `signature`| `string` | `Department Signature`  | ✔️ | Department Signature |
+| `parameters` > `flags`| `int` | `Department Status` | ✔️ | Department Status |
+
 ## 🔵 SLA
 
 ## 🟡 `[GET]` SLA/Specific
