@@ -15,19 +15,28 @@ class apiKey
     {
 
         if($key) $this->key = $key;
+        if(strlen($key) != 32) { throw new Exception("Incorrect API Format"); }
+
         // Connect Database
         $Dbobj = new DBConnection(); 
         $mysqli = $Dbobj->getDBConnect();
 
-        $GetKey = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."api_key WHERE apiKey = '$key'");
-        $this->farray = $GetKey->fetch_array(); 
-        $this->countR = $GetKey->num_rows;
+        // Check API Key
+        $stmt = $mysqli->prepare("SELECT * FROM ".TABLE_PREFIX."api_key WHERE apiKey = ?");
+        $stmt->bind_param('s', $key);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        $this->farray = $row; 
+        $this->countR = $result->num_rows;
 
         // If exists
         if(!$this->countR)
             throw new Exception("No API Key found.");
         // Check IPAddress
-        if(!$this->farray["isactive"] || APIKEY_RESTRICT && $this->farray["ipaddr"] != $_SERVER['REMOTE_ADDR'])
+        if(!$row["isactive"] || APIKEY_RESTRICT && $row["ipaddr"] != $_SERVER['REMOTE_ADDR'])
             throw new Exception("API key not found/active or source IP not authorized");
          
         define('CANCREATE', $this->farray["can_create_tickets"]); // Can create

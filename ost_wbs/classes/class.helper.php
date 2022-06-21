@@ -2,7 +2,7 @@
 class Helper 
 {
     // Check Tickets Status
-    public function checkTicketStatus($ticketstatus)
+    static function checkTicketStatus($ticketstatus)
     {
         // Map array to check if status is available
         $NAcceptedTicketStatus = array_map(function($ticketstatus){
@@ -18,7 +18,7 @@ class Helper
     }
 
     // Get formated date from string
-    public function getFormatedDate($fullstring, $condition)
+    static function getFormatedDate($fullstring, $condition)
     {
 
     	switch ($condition) {
@@ -38,19 +38,19 @@ class Helper
     } 
 
     // Check if request method is valid
-    public function validRequest($method){
+    static function validRequest($method){
         if(!in_array($_SERVER['REQUEST_METHOD'], $method)){
             throw new Exception($_SERVER['REQUEST_METHOD']." is not a valid request method");
         }     
     } 
 
     // Check permissions 
-    public function checkPermission(){
+    static function checkPermission(){
         if(CANCREATE == 0){ throw new Exception("Error! Your API Key is READ ONLY, it is no allowed to make any action.");}  
     } 
 
     // Get last ID
-    public function get_last_id($table, $field)
+    static function get_last_id($table, $field)
     {
         // Connect Database
         $Dbobj = new DBConnection(); 

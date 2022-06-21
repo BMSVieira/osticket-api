@@ -34,15 +34,11 @@ class OSTicketAPI
             // Request Data
             $classe = ucfirst($requestBody['query']);
             $method = $requestBody['condition'];
-            $sort = (isset($requestBody['sort'])) ? $requestBody['sort']:'none';
 
-            if($requestBody['parameters'].isArray)
-            {
-             $parameters = $requestBody['parameters'];
-            } else {
-            $parameters = (isset($requestBody['parameters'])) ? explode(",", $requestBody['parameters']):'none';
-            }
-     
+            // Sort & Parameters
+            if (isset($requestBody['sort'])) { $sort = $requestBody['sort']; } else { $sort = null; }
+            if (isset($requestBody['parameters'])) { $parameters = $requestBody['parameters']; } else { $parameters = null; }
+
         // Final Parameters
         $fparams = array("sort" => $sort, "parameters" => $parameters);
 
