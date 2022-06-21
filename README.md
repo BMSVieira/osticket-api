@@ -224,6 +224,36 @@ Fetch all user by creation between two given dates.
 | `parameters` > `start_date`| `string` | `YYYY/MM/DD` | ✔️ | Start date  |
 | `parameters` > `end_date`| `string` | `YYYY/MM/DD` | ✔️ | End date  |
 
+## 🟡 `[POST] [PUT]` User/Add
+
+Add new data to database
+
+```javascript
+{
+"query":"user",
+"condition":"add",
+"parameters":{
+    "name": "User Name",
+    "email": "useremail@gmail.com",
+    "phone": 999999999,
+    "org_id":1,
+    "default_email_id":1,
+    "status":1
+    }
+}
+```
+
+| Option | Type | value | Mandatory | Description
+| --- | --- |  :-: | :-: |  --- |
+| `query`| `string` | `sla` | ✔️ | Indicates the content of the request |
+| `condition`| `string` | `add` | ✔️ | Indicates the condition of the request |
+| `parameters` > `name`| `string` | `User Name` | ✔️ | User Name |
+| `parameters` > `email`| `int` | ` Email Address` | ✔️ | Email Address |
+| `parameters` > `phone`| `int` | `Phone Number` | ✔️ | Phone Number |
+| `parameters` > `org_id`| `int` | `Organization ID` | ✔️ | Organization ID |
+| `parameters` > `default_email_id`| `Default Email ID` | `Notes` | ✔️ | Default Email ID |
+| `parameters` > `status`| `int` | `Status` | ✔️ | Status |
+
 ## 🔵 Department
 
 ## 🟡 `[GET]` Department/Specific
