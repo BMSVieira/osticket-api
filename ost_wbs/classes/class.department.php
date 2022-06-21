@@ -100,5 +100,83 @@ class Department
             // Return values
             return $returnArray;  
         }
+
+        public function add($parameters)
+        {
+
+            // Check Permission
+            Helper::checkPermission();
+
+            // Check Request method
+            $validRequests = array("POST", "PUT");
+            Helper::validRequest($validRequests);
+
+            // Expected parameters
+            $expectedParameters = array("name", "signature", "flags");
+
+            // Check if all paremeters are correct
+            Helper::checkRequest($parameters, $expectedParameters);
+
+                // Check if row already exists
+                if($this->checkExists('name', $parameters["parameters"]['name'])) { throw new Exception("Item Already exists"); }
+
+                // Prepare query
+                $paramOrder = "";
+                $valuesOrder = "";
+
+                foreach ($parameters["parameters"] as $key => $value) { 
+
+                    // Parameters order
+                    $paramOrder = $paramOrder.",".$key; 
+                    // Values order
+                    if(is_numeric($value)) { $valuesOrder = $valuesOrder.",".$value."";  } else { $valuesOrder = $valuesOrder.",'".$value."'";}
+                }
+
+                // Remove first comma
+                $paramOrder = substr($paramOrder, 1);
+                $valuesOrder = substr($valuesOrder, 1);
+
+                // final Query
+                $addQuery = "INSERT INTO ".TABLE_PREFIX."department ";
+                $addQuery .= "(".$paramOrder.", created, updated)";
+                $addQuery .= "VALUES(".$valuesOrder.", now(), now())"; 
+
+                // Send query to be executed
+                return $this->execQuery($addQuery);        
+
+        }
+        private function checkExists($field, $value)
+        {
+
+            // Connect Database
+            $Dbobj = new DBConnection(); 
+            $mysqli = $Dbobj->getDBConnect();
+
+            // Check if already exists
+            $checkExists = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."department WHERE ".TABLE_PREFIX."department.".$field." = '".$value."'");
+            $numRows = $checkExists->num_rows;
+
+            return $numRows;
+
+        }
+
+        private function execQuery($string)
+        {
+            // Connect Database
+            $Dbobj = new DBConnection(); 
+            $mysqli = $Dbobj->getDBConnect();
+
+            // Check if already exists
+            $insertRecord = $mysqli->query($string);
+
+            if($insertRecord)
+            {
+                return "Success! Row 1 affected.";
+            } else {
+                throw new Exception("Something went wrong.");    
+            }
+        }
+
+
 }
 ?>
