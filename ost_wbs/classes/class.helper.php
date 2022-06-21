@@ -61,5 +61,40 @@ class Helper
         $printLastId = $getLastId->fetch_object();
 
         return $printLastId->$field;
-    }    
+    }  
+
+    // Check parameters
+    static function checkRequest($parameters, $expectedParameters)
+    {
+
+        // Error array 
+        $errors = array();
+
+        // Check if parameters is an array
+        if(gettype($parameters["parameters"]) == 'array'){
+
+            // Check for empty fields
+            foreach ($expectedParameters as $key => $value) {
+                if(empty($parameters["parameters"][$value])) {
+                    array_push($errors,"Empty or Incorrect fields were given.");
+                }
+            }
+
+            // Check for unkown or unexpected fields
+            foreach ($parameters["parameters"] as $key => $value) {
+                if (!in_array($key, $expectedParameters)) {
+                    array_push($errors,"Unexpectec fields given.");
+                }
+            }
+
+            // If no errors, continue
+            if(count($errors) > 0){
+                throw new Exception("Empty or Incorrect fields were given, read documentation for more info."); 
+            } 
+
+        } else {
+            throw new Exception("Parameters must be an array.");    
+        }
+
+    }  
 }

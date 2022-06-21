@@ -186,7 +186,7 @@ class Ticket
             $expectedParameters = array("title", "subject", "priority_id", "status_id", "dept_id", "sla_id", "topic_id");
 
             // Check if all paremeters are correct
-            self::checkRequest($parameters, $expectedParameters);
+            Helper::checkRequest($parameters, $expectedParameters);
 
                 // Prepare query
 
@@ -278,61 +278,10 @@ class Ticket
                 $thread_entry .= 'now())';
 
                 // Send query to be executed
-                $this->execQuery($thread_entry);
-
-                return $last_ticket_id;      
+                return $this->execQuery($thread_entry);   
 
         }
-
-        public function checkRequest($parameters, $expectedParameters)
-        {
-
-            // Error array 
-            $errors = array();
-
-            // Check if parameters is an array
-            if(gettype($parameters["parameters"]) == 'array'){
-
-                // Check for empty fields
-                foreach ($expectedParameters as $key => $value) {
-                    if(empty($parameters["parameters"][$value])) {
-                        array_push($errors,"Empty or Incorrect fields were given.");
-                    }
-                }
-
-                // Check for unkown or unexpected fields
-                foreach ($parameters["parameters"] as $key => $value) {
-                    if (!in_array($key, $expectedParameters)) {
-                        array_push($errors,"Unexpectec fields given.");
-                    }
-                }
-
-                // If no errors, continue
-                if(count($errors) > 0){
-                    throw new Exception("Empty or Incorrect fields were given, read documentation for more info."); 
-                } 
-
-            } else {
-                throw new Exception("Parameters must be an array.");    
-            }
-
-        }
-
-        private function checkExists($field, $value)
-        {
-
-            // Connect Database
-            $Dbobj = new DBConnection(); 
-            $mysqli = $Dbobj->getDBConnect();
-
-            // Check if already exists
-            $checkExists = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."sla WHERE ".TABLE_PREFIX."sla.".$field." = '".$value."'");
-            $numRows = $checkExists->num_rows;
-
-            return $numRows;
-
-        }
-
+        
         private function execQuery($string)
         {
             // Connect Database
