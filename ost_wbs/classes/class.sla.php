@@ -159,7 +159,7 @@ class Sla
             $expectedParameters = array("id");
 
             // Check if all paremeters are correct
-            self::checkRequest($parameters, $expectedParameters);
+            Helper::checkRequest($parameters, $expectedParameters);
 
                 // Prepare query
                 $paramOrder = "";
