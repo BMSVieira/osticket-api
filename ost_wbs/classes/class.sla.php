@@ -3,6 +3,9 @@ class Sla
 {
         public function all($parameters)
         {
+            // Escape Parameters
+            $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
+
             // Check Request method
             $validRequests = array("GET");
             Helper::validRequest($validRequests);
@@ -60,7 +63,9 @@ class Sla
 
         public function specific($parameters)
         {
-           
+            // Escape Parameters
+            $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
+
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
@@ -117,7 +122,7 @@ class Sla
             Helper::checkRequest($parameters, $expectedParameters);
 
                 // Check if row already exists
-                if($this->checkExists('name', $parameters["parameters"]['name'])) { throw new Exception("Item Already exists"); }
+                if($this->checkExists('name', $parameters["parameters"]['name'], "sla")) { throw new Exception("Item Already exists"); }
 
                 // Prepare query
                 $paramOrder = "";
@@ -165,7 +170,7 @@ class Sla
                 $paramOrder = "";
                 $valuesOrder = "";
 
-                if($this->checkExists('id', $parameters["parameters"]['id']) == 0) { throw new Exception("Item does not exist."); }
+                if($this->checkExists('id', $parameters["parameters"]['id'], "sla") == 0) { throw new Exception("Item does not exist."); }
 
                 foreach ($parameters["parameters"] as $key => $value) { 
 
@@ -188,19 +193,21 @@ class Sla
 
         }
 
-        private function checkExists($field, $value)
+        private function checkExists($field, $value, $table)
         {
-
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
 
             // Check if already exists
-            $checkExists = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."sla WHERE ".TABLE_PREFIX."sla.".$field." = '".$value."'");
-            $numRows = $checkExists->num_rows;
+            $stmt = $mysqli->prepare("SELECT * FROM ".TABLE_PREFIX."".$table." WHERE ".$field." = ?");
+            $stmt->bind_param('s', $value);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+            $numRows = $result->num_rows;
 
             return $numRows;
-
         }
 
         private function execQuery($string)

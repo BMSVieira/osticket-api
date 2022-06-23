@@ -5,6 +5,9 @@ class Faq
 
     public function all($parameters)
     {
+        // Escape Parameters
+        $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
+
         // Check Request method
         $validRequests = array("GET");
         Helper::validRequest($validRequests);
@@ -79,6 +82,9 @@ class Faq
 
     public function specific($parameters,$exception = FALSE)
     {
+        // Escape Parameters
+        $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
+
         // Check Request method
         $validRequests = array("GET");
         Helper::validRequest($validRequests);

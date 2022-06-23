@@ -3,6 +3,9 @@ class Department
 {
         public function all($parameters)
         {
+            // Escape Parameters
+            $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
+
             // Check Request method
             $validRequests = array("GET");
             Helper::validRequest($validRequests);
@@ -61,6 +64,8 @@ class Department
 
         public function specific($parameters)
         {
+            // Escape Parameters
+            $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
            
             // Check Request method
             $validRequests = array("GET");
@@ -176,7 +181,5 @@ class Department
                 throw new Exception("Something went wrong.");    
             }
         }
-
-
 }
 ?>

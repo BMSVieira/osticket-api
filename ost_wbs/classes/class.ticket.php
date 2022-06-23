@@ -40,6 +40,10 @@ class Ticket
 
         public function all($parameters)
         {
+
+            // Escape Parameters
+            $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
+
             // Check Request method
             $validRequests = array("GET");
             Helper::validRequest($validRequests);
@@ -142,6 +146,10 @@ class Ticket
 
         public function specific($parameters)
         {
+            
+            // Escape Parameters
+            $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
+
             // Check Request method
             $validRequests = array("GET");
             Helper::validRequest($validRequests);
@@ -159,7 +167,7 @@ class Ticket
             
             // Fetch data
             while($PrintTickets = $getTickets->fetch_object()){ array_push($result, self::compileResults($PrintTickets)); }
-        	
+            
             // Check if there are some results in the array
             if(!$result){
                 throw new Exception("No items found.");
@@ -174,6 +182,8 @@ class Ticket
 
         public function add($parameters)
         {
+            // Escape Parameters
+            $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
 
             // Check Permission
             Helper::checkPermission();
@@ -281,7 +291,150 @@ class Ticket
                 return $this->execQuery($thread_entry);   
 
         }
-        
+
+        public function reply($parameters)
+        {
+            // Escape Parameters
+            $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
+
+            // Check Permission
+            Helper::checkPermission();
+
+            // Check Request method
+            $validRequests = array("POST", "PUT");
+            Helper::validRequest($validRequests);
+
+            // Expected parameters
+            $expectedParameters = array("ticket_id", "body", "staff_id");
+
+            // Check if all paremeters are correct
+            Helper::checkRequest($parameters, $expectedParameters);
+
+                // Check if ticket exists
+                if($this->checkExists('ticket_id', $parameters["parameters"]['ticket_id'], "ticket") == 0) { throw new Exception("Ticket does not exist."); }
+                // Check if staff exists
+                if($this->checkExists('staff_id', $parameters["parameters"]['staff_id'], "staff") == 0) { throw new Exception("Staff does not exist."); }
+
+                // Connect Database
+                $Dbobj = new DBConnection(); 
+                $mysqli = $Dbobj->getDBConnect();
+
+                // Prepare query
+
+                // Get thread ID from Ticket ID
+                $stmt = $mysqli->prepare("SELECT * FROM ".TABLE_PREFIX."thread WHERE object_id = ?");
+                $stmt->bind_param('s', $parameters["parameters"]['ticket_id']);
+                $stmt->execute();
+
+                $result = $stmt->get_result();
+                $row = $result->fetch_object();
+
+                $thread_id = $row->id;
+
+                    // Add rows with thread ID
+                    $thread = 'insert into '.TABLE_PREFIX.'thread_entry (';
+                    $thread .= 'thread_id,';
+                    $thread .= 'staff_id,';
+                    $thread .= 'body,'; 
+                    $thread .= 'source,';   
+                    $thread .= 'type,';                                                             
+                    $thread .= 'created,';
+                    $thread .= 'updated) VALUES (';       
+                    $thread .= ''.$thread_id.',';
+                    $thread .= ''.$parameters["parameters"]["staff_id"].',';
+                    $thread .= '"<p>'.utf8_decode($parameters["parameters"]["body"]).'</p>",';
+                    $thread .= '"API",';  
+                    $thread .= '"R",';                                       
+                    $thread .= 'now(),';    
+                    $thread .= 'now())';
+
+                    // Send query to be executed
+                    $this->execQuery($thread);
+
+                    // Update last response in thread_id
+                    $threadUpdate = 'update '.TABLE_PREFIX.'thread SET ';
+                    $threadUpdate .= 'lastresponse = now(), ';
+                    $threadUpdate .= 'lastmessage = now() WHERE ';       
+                    $threadUpdate .= 'id = '.$thread_id.'';
+
+                // Send query to be executed
+                return $this->execQuery($threadUpdate);;     
+        }
+
+        public function close($parameters)
+        {
+
+                    // Escape Parameters
+                    $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
+
+                    // Check Permission
+                    Helper::checkPermission();
+
+                    // Check Request method
+                    $validRequests = array("POST", "PUT");
+                    Helper::validRequest($validRequests);
+
+                    // Expected parameters
+                    $expectedParameters = array("ticket_id", "body", "staff_id","status_id", "team_id", "dept_id", "topic_id", "username");
+
+                    // Check if all paremeters are correct
+                    Helper::checkRequest($parameters, $expectedParameters);
+
+                    // Connect Database
+                    $Dbobj = new DBConnection(); 
+                    $mysqli = $Dbobj->getDBConnect();
+
+                    // Prepare date to send to reply function
+                    $sendParam["parameters"]["ticket_id"] = $parameters["parameters"]['ticket_id'];
+                    $sendParam["parameters"]["body"] = $parameters["parameters"]['body'];
+                    $sendParam["parameters"]["staff_id"] = $parameters["parameters"]['staff_id'];
+
+                    // Set Reply
+                    self::reply($sendParam);
+
+                    // Get thread ID from Ticket ID
+                    $stmt = $mysqli->prepare("SELECT * FROM ".TABLE_PREFIX."thread WHERE object_id = ?");
+                    $stmt->bind_param('s', $parameters["parameters"]['ticket_id']);
+                    $stmt->execute();
+
+                    $result = $stmt->get_result();
+                    $row = $result->fetch_object();
+                    $thread_id = $row->id;
+
+                    // Update ticket status
+                    $ticketStatusUpdate = 'update '.TABLE_PREFIX.'ticket SET ';
+                    $ticketStatusUpdate .= 'status_id = '.$parameters["parameters"]["status_id"].', ';
+                    $ticketStatusUpdate .= 'updated = now() WHERE ';       
+                    $ticketStatusUpdate .= 'ticket_id = '.$parameters["parameters"]["ticket_id"].'';
+
+                    // Insert into event thread
+                    $threadEvent = 'insert into '.TABLE_PREFIX.'thread_event (';
+                    $threadEvent .= 'thread_id,';
+                    $threadEvent .= 'thread_type,';
+                    $threadEvent .= 'event_id,'; 
+                    $threadEvent .= 'staff_id,';   
+                    $threadEvent .= 'team_id,';                                                             
+                    $threadEvent .= 'dept_id,';
+                    $threadEvent .= 'topic_id,';
+                    $threadEvent .= 'username,';
+                    $threadEvent .= 'timestamp) VALUES (';       
+                    $threadEvent .= ''.$thread_id.',';
+                    $threadEvent .= '"T",';
+                    $threadEvent .= '2,';
+                    $threadEvent .= ''.$parameters["parameters"]["staff_id"].',';
+                    $threadEvent .= ''.$parameters["parameters"]["team_id"].',';                             
+                    $threadEvent .= ''.$parameters["parameters"]["dept_id"].',';
+                    $threadEvent .= ''.$parameters["parameters"]["topic_id"].',';
+                    $threadEvent .= '"'.$parameters["parameters"]["username"].'",';                        
+                    $threadEvent .= 'now())';
+
+                    // Send query to be executed
+                    $this->execQuery($threadEvent);
+
+                // Send query to be executed
+                return $this->execQuery($ticketStatusUpdate);;     
+        }
+
         private function execQuery($string)
         {
             // Connect Database
@@ -297,5 +450,23 @@ class Ticket
                 throw new Exception("Something went wrong.");    
             }
         }
+
+        private function checkExists($field, $value, $table)
+        {
+            // Connect Database
+            $Dbobj = new DBConnection(); 
+            $mysqli = $Dbobj->getDBConnect();
+
+            // Check if already exists
+            $stmt = $mysqli->prepare("SELECT * FROM ".TABLE_PREFIX."".$table." WHERE ".$field." = ?");
+            $stmt->bind_param('s', $value);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+            $numRows = $result->num_rows;
+
+            return $numRows;
+        }
+
 }
 ?>

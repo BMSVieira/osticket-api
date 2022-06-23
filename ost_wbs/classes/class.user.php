@@ -3,6 +3,9 @@ class User
 {
         public function all($parameters)
         {
+            // Escape Parameters
+            $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
+
             // Check Request method
             $validRequests = array("GET");
             Helper::validRequest($validRequests);
@@ -58,6 +61,9 @@ class User
 
         public function specific($parameters)
         {
+            // Escape Parameters
+            $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
+
             // Check Request method
             $validRequests = array("GET");
             Helper::validRequest($validRequests);
@@ -115,7 +121,7 @@ class User
 
                 // Prepare query
 
-                if($this->checkExists('address', $parameters["parameters"]['email']) > 0) { throw new Exception("This email is already being used by a user."); }
+                if($this->checkExists('address', $parameters["parameters"]['email'], "user_email") > 0) { throw new Exception("This email is already being used by a user."); }
 
                 // table - 'user'
                 $user = 'insert into '.TABLE_PREFIX.'user (';
@@ -164,20 +170,23 @@ class User
 
         }
 
-        private function checkExists($field, $value)
+        private function checkExists($field, $value, $table)
         {
-
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
 
             // Check if already exists
-            $checkExists = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."user_email WHERE ".TABLE_PREFIX."user_email.".$field." = '".$value."'");
-            $numRows = $checkExists->num_rows;
+            $stmt = $mysqli->prepare("SELECT * FROM ".TABLE_PREFIX."".$table." WHERE ".$field." = ?");
+            $stmt->bind_param('s', $value);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+            $numRows = $result->num_rows;
 
             return $numRows;
-
         }
+
 
         private function execQuery($string)
         {

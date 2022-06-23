@@ -5,6 +5,9 @@ class Topics
 
     public function all($parameters)
     {
+        // Escape Parameters
+        $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
+
         // Check Request method
         $validRequests = array("GET");
         Helper::validRequest($validRequests);

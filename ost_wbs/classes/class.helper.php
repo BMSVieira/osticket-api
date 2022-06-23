@@ -63,6 +63,20 @@ class Helper
         return $printLastId->$field;
     }  
 
+    /* Escape parameters */
+    static function escapeParameters($parameters)
+    {
+        // Connect Database
+        $Dbobj = new DBConnection(); 
+        $mysqli = $Dbobj->getDBConnect();
+
+        foreach($parameters as $key=>$value) {
+            $parameters[$key] = mysqli_real_escape_string($mysqli, $parameters[$key]); 
+        }
+
+        return $parameters;
+    }
+
     // Check parameters
     static function checkRequest($parameters, $expectedParameters)
     {
