@@ -49,6 +49,27 @@ class Helper
         if(CANCREATE == 0){ throw new Exception("Error! Your API Key is READ ONLY, it is no allowed to make any action.");}  
     } 
 
+    // Write to system log
+    static function syslog($classe, $method, $return)
+    {
+        // Connect Database
+        $Dbobj = new DBConnection();
+        $mysqli = $Dbobj->getDBConnect();
+
+        // Check if already exists
+        $stmt = $mysqli->prepare("INSERT INTO ".TABLE_PREFIX."syslog (log_type, title, log, ip_address, created, updated, logger) VALUES (?, ?, ?, ?, ?, ?, '')");
+        $stmt->bind_param('ssssss', $logtype, $title, $log, $ipaddress, $created, $updated);
+
+        $logtype = "Debug";
+        $title = "OSTicket API: ".$classe." - ".$method;
+        $log = $return;
+        $ipaddress = $_SERVER['SERVER_ADDR'];
+        $created = date("Y-m-d H:i:s");    
+        $updated = date("Y-m-d H:i:s");    
+
+        $stmt->execute();
+    }
+
     // Get last ID
     static function get_last_id($table, $field)
     {
@@ -63,16 +84,17 @@ class Helper
         return $printLastId->$field;
     }  
 
-    /* Escape parameters */
+    // Escape parameters
     static function escapeParameters($parameters)
     {
         // Connect Database
         $Dbobj = new DBConnection(); 
         $mysqli = $Dbobj->getDBConnect();
 
-        foreach($parameters as $key=>$value) {
-            $parameters[$key] = mysqli_real_escape_string($mysqli, $parameters[$key]); 
-        }
+        if($parameters)
+            foreach($parameters as $key=>$value) {
+                $parameters[$key] = mysqli_real_escape_string($mysqli, $parameters[$key]); 
+            }
 
         return $parameters;
     }

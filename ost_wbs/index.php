@@ -61,6 +61,9 @@ class OSTicketAPI
                         $time_end = microtime(true);
                         $execution_time = ($time_end - $time_start);
 
+                        if(WRITE_SYSTEMLOG)   
+                            helper::syslog($classe, $method, json_encode($return));
+
                         // Return values
                         return json_encode(array('status' => 'Success', 'time' => $execution_time, 'data' => $return));  
 

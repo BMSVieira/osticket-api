@@ -13,8 +13,11 @@ define('DBPASS','');
 # Table prefix
 define('TABLE_PREFIX','ost_');
 
-# Global Rules
+# Available Status
 define('ATSTATUS', array(0,1,2,3,4,5,6,7));
-define('APIKEY_RESTRICT', false); // Check for IP authorization
+# Check for IP authorization
+define('APIKEY_RESTRICT', false);
+# Write alerts in system log
+define('WRITE_SYSTEMLOG', true);
 
 ?>
