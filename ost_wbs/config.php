@@ -3,21 +3,25 @@
 # Turn off all error reporting
 error_reporting();
 
-# Database Credentials
-define('DBTYPE','');
-define('DBHOST','');
-define('DBNAME','');
-define('DBUSER','');
-define('DBPASS','');
+// Database Credentials
+define('DBTYPE',''); // Database type (mysql, sql..)
+define('DBHOST',''); // IP Address
+define('DBNAME',''); // Database Name
+define('DBUSER',''); // Database User
+define('DBPASS',''); // Database Password
 
-# Table prefix
+// Table prefix
 define('TABLE_PREFIX','ost_');
 
-# Available Status
+// Accepted ticket status
 define('ATSTATUS', array(0,1,2,3,4,5,6,7));
-# Check for IP authorization
+
+// Check for IP authorization
+// Set this to True, if you want your API to be only used by a specific IP Address
+// The IP Address is defined in the OSTicket built in form.
 define('APIKEY_RESTRICT', false);
-# Write alerts in system log
+
+// Write every succesfull request to built in system log
 define('WRITE_SYSTEMLOG', true);
 
 ?>
