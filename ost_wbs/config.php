@@ -21,7 +21,7 @@ define('ATSTATUS', array(0,1,2,3,4,5,6,7));
 // The IP Address is defined in the OSTicket built in form.
 define('APIKEY_RESTRICT', false);
 
-// Write every succesfull request to built in system log
+// Write every successfull request to built in system log
 define('WRITE_SYSTEMLOG', true);
 
 ?>
