@@ -17,7 +17,7 @@ require_once 'config.php';
 
 // Autoload class files
 spl_autoload_register( function ( $class ) {
-    require_once 'classes/class.' . lcfirst($class) . '.php';
+    require_once 'classes/class.' . strtolower($class) . '.php';
 });
 
 // Main Class
@@ -26,7 +26,7 @@ class OSTicketAPI
 	public static function open($request)
 	{
         // Header
-        $key = array("apikey" => getallheaders()["apikey"]);
+        $key = array("apikey" => array_change_key_case(getallheaders()), CASE_LOWER)["apikey"];
         
         // Body
         $requestBody = json_decode(file_get_contents('php://input'), true);
