@@ -114,13 +114,15 @@ class User
             Helper::validRequest($validRequests);
 
             // Expected parameters
-            $expectedParameters = array("name", "email", "phone", "org_id", "default_email_id", "status");
+            $expectedParameters = array("name", "email", "password", "timezone", "phone", "org_id", "default_email_id", "status");
 
             // Check if all paremeters are correct
             Helper::checkRequest($parameters, $expectedParameters);
 
-                // Prepare query
+                // Escape parameters
+                $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
 
+                // Prepare query
                 if($this->checkExists('address', $parameters["parameters"]['email'], "user_email") > 0) { throw new Exception("This email is already being used by a user."); }
 
                 // table - 'user'
@@ -166,7 +168,23 @@ class User
                 $user_email .= '"'.$parameters["parameters"]["email"].'")';    
 
                 // Send query to be executed
-                return $this->execQuery($user_email);       
+                $this->execQuery($user_email);    
+
+                // table - 'ost_user_account'
+                $user_account = 'insert into '.TABLE_PREFIX.'user_account (';
+                $user_account .= 'user_id,';
+                $user_account .= 'status,';
+                $user_account .= 'timezone,';
+                $user_account .= 'passwd,';
+                $user_account .= 'registered) VALUES ('; 
+                $user_account .= ''.$last_user_id.', ';
+                $user_account .= '1, ';
+                $user_account .= '"'.$parameters["parameters"]["timezone"].'", ';
+                $user_account .= '"'.$parameters["parameters"]["password"].'", ';   
+                $user_account .= 'now())';      
+
+                // Send query to be executed
+                return $this->execQuery($user_account);  
 
         }
 

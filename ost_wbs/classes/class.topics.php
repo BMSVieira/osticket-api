@@ -62,10 +62,27 @@ class Topics
         // Connect Database
         $Dbobj = new DBConnection(); 
         $mysqli = $Dbobj->getDBConnect();
-        $tID = $parameters["parameters"]["id"];
 
-        // Query
-        $getTopics = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."help_topic WHERE ispublic = 1 AND topic_id = " . $tID . " LIMIT 1");
+        switch ($parameters["sort"]) {
+            // Sorte by Date
+            case "id":
+
+                $tID = $parameters["parameters"]["id"];
+                // Query
+                $getTopics = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."help_topic WHERE ispublic = 1 AND topic_id = " . $tID . " LIMIT 1");
+
+            break;
+            case "name":
+
+                $tName = Helper::remove_accents($parameters["parameters"]["name"]);
+                // Query
+                $getTopics = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."help_topic WHERE ispublic = 1 AND topic LIKE '%" . $tName . "%' LIMIT 1");
+
+                break;
+            default:
+                throw new Exception("Unknown Parameter.");
+            break;
+        }
 
         // Array that stores all results
         $result = array();

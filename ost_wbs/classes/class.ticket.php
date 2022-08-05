@@ -193,7 +193,7 @@ class Ticket
             Helper::validRequest($validRequests);
 
             // Expected parameters
-            $expectedParameters = array("title", "subject", "priority_id", "status_id", "dept_id", "sla_id", "topic_id");
+            $expectedParameters = array("title", "subject", "user_id",  "priority_id", "status_id", "dept_id", "sla_id", "topic_id");
 
             // Check if all paremeters are correct
             Helper::checkRequest($parameters, $expectedParameters);
@@ -202,7 +202,7 @@ class Ticket
 
                 $last_ticket_id = Helper::get_last_id("ticket", "ticket_id");
                 $ticket_number = $last_ticket_id+1;
-                $ticker_number = "API".$ticket_number;
+                $ticker_number = "00".$ticket_number;
 
                 // table - 'ticket'
                 $ticket = 'insert into '.TABLE_PREFIX.'ticket (';
@@ -219,7 +219,7 @@ class Ticket
                 $ticket .= 'created,';
                 $ticket .= 'updated) VALUES ('; 
                 $ticket .= '"'.$ticker_number.'",';   
-                $ticket .= '1,';
+                $ticket .= ''.$parameters["parameters"]["user_id"].',';
                 $ticket .= ''.$parameters["parameters"]["status_id"].',';
                 $ticket .= ''.$parameters["parameters"]["dept_id"].',';
                 $ticket .= ''.$parameters["parameters"]["sla_id"].',';
@@ -243,7 +243,7 @@ class Ticket
                 $ticket__cdata .= 'subject,';
                 $ticket__cdata .= 'priority) VALUES (';    
                 $ticket__cdata .= ''.$last_ticket_id.',';
-                $ticket__cdata .= '"'.$parameters["parameters"]["subject"].'",';
+                $ticket__cdata .= '"'.utf8_decode($parameters["parameters"]["subject"]).'",';
                 $ticket__cdata .= ''.$parameters["parameters"]["priority_id"].')';
 
                 // Send query to be executed
@@ -266,7 +266,11 @@ class Ticket
 
                 // table - 'thread_entry'
                 $thread_entry = 'insert into '.TABLE_PREFIX.'thread_entry (';
+                $thread_entry .= 'format,';
+                $thread_entry .= 'ip_address,';
+                $thread_entry .= 'pid,';
                 $thread_entry .= 'thread_id,';
+                $thread_entry .= 'staff_id,';
                 $thread_entry .= 'user_id,';                
                 $thread_entry .= 'type,';
                 $thread_entry .= 'poster,';
@@ -275,21 +279,24 @@ class Ticket
                 $thread_entry .= 'title,';
                 $thread_entry .= 'body,';
                 $thread_entry .= 'created,';
-                $thread_entry .= 'updated) VALUES (';    
+                $thread_entry .= 'updated) VALUES (';
+                $thread_entry .= '"html",';  
+                $thread_entry .= '0,';  
+                $thread_entry .= '0,';
                 $thread_entry .= ''.$last_thread_id.',';
-                $thread_entry .= '1,';
+                $thread_entry .= '0,';
+                $thread_entry .= ''.$parameters["parameters"]["user_id"].',';
                 $thread_entry .= '"M",';
                 $thread_entry .= '"osTicket Support",';
                 $thread_entry .= '65,';
                 $thread_entry .= '"API",';
-                $thread_entry .= '"'.$parameters["parameters"]["title"].'",';
-                $thread_entry .= '"<p>'.$parameters["parameters"]["subject"].'</p>",';
+                $thread_entry .= '"'.utf8_decode($parameters["parameters"]["title"]).'",';
+                $thread_entry .= '"<p>'.utf8_decode($parameters["parameters"]["subject"]).'</p>",';
                 $thread_entry .= 'now(),';    
                 $thread_entry .= 'now())';
 
                 // Send query to be executed
                 return $this->execQuery($thread_entry);   
-
         }
 
         public function reply($parameters)
@@ -445,7 +452,11 @@ class Ticket
             $insertRecord = $mysqli->query($string);
 
             if($insertRecord){
-                return "Success! Row 1 affected.";
+
+                // Get inserted ticket ID
+                $last_ticket_id = Helper::get_last_id("ticket", "ticket_id");
+                return $last_ticket_id;
+                
             } else {
                 throw new Exception("Something went wrong.");    
             }
