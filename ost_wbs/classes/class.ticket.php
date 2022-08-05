@@ -202,7 +202,7 @@ class Ticket
 
                 $last_ticket_id = Helper::get_last_id("ticket", "ticket_id");
                 $ticket_number = $last_ticket_id+1;
-                $ticker_number = "00".$ticket_number;
+                $ticker_number = "API".$ticket_number;
 
                 // table - 'ticket'
                 $ticket = 'insert into '.TABLE_PREFIX.'ticket (';
