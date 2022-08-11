@@ -25,8 +25,11 @@ class OSTicketAPI
 {
 	public static function open($request)
 	{
+        
         // Header
-        $key = array("apikey" => getallheaders()["Apikey"]);
+        $headers = array_change_key_case(getallheaders(), CASE_LOWER);
+        $key = array("apikey" => $headers["apikey"]);
+
         // Body
         $requestBody = json_decode(file_get_contents('php://input'), true);
             
