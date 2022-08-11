@@ -71,10 +71,33 @@ class User
             // Connect Database
             $Dbobj = new DBConnection(); 
             $mysqli = $Dbobj->getDBConnect();
-            $uID = $parameters["parameters"]["id"];
 
-            // set query
-            $getUser = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."user WHERE ".TABLE_PREFIX."user.id = '$uID'");
+
+            switch ($parameters["sort"]) {
+
+                // Sorte by ID
+                case "id":
+
+                    // Get ID
+                    $uID = $parameters["parameters"]["id"];
+                    // set query
+                    $getUser = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."user WHERE ".TABLE_PREFIX."user.id = '$uID'");
+
+                break;
+                // Sorte by Email
+                case "email":
+
+                    // Get Email
+                    $uEmail = $parameters["parameters"]["email"];
+                    // set query
+                    $getUser = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."user INNER JOIN ".TABLE_PREFIX."user_email ON ".TABLE_PREFIX."user.id = ".TABLE_PREFIX."user_email.user_id WHERE ".TABLE_PREFIX."user_email.address = '$uEmail'");
+
+                break;
+                default:
+                    throw new Exception("Unknown Parameter.");
+                break;
+            }
+
 
             // Array that stores all results
             $result = array();
@@ -216,7 +239,11 @@ class User
             $insertRecord = $mysqli->query($string);
 
             if($insertRecord){
-                return "Success! Row 1 affected.";
+
+                // Get inserted user ID
+                $last_user_id = Helper::get_last_id("user", "id");
+                return $last_user_id;
+                
             } else {
                 throw new Exception("Something went wrong.");    
             }
