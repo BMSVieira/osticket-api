@@ -113,7 +113,7 @@ class Helper
             // Check for empty fields
             foreach ($expectedParameters as $key => $value) {
                 if(empty($parameters["parameters"][$value])&& !is_numeric($parameters["parameters"][$value])) {
-                    array_push($errors,"Empty or Incorrect fields were given. ".$key." ".$value);
+                    array_push($errors,"Empty or Incorrect expected fields were given. ".$key." ".$value);
                 }
             }
 
@@ -126,7 +126,7 @@ class Helper
 
             // If no errors, continue
             if(count($errors) > 0){
-                throw new Exception("Empty or Incorrect fields were given, read documentation for more info. ".var_export($errors,true));
+                throw new Exception("Empty or Incorrect fields were given, read documentation for more info. ");
             } 
 
         } else {

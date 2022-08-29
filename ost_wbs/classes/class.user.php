@@ -176,9 +176,6 @@ class User
                 // Send query to be executed
                 $this->execQuery($user); 
 
-		error_log($user);
-		error_log("-----");
-		error_log("-----");
                 // Get inserted user ID
                 $last_user_id = Helper::get_last_id("user", "id");
               
@@ -196,9 +193,6 @@ class User
                 // Send query to be executed
                 $this->execQuery($user__cdata); 
 
-		error_log($user__cdata);
-		error_log("-----");
-		error_log("-----");
                 // table - 'user_email'
                 $user_email = 'insert into '.TABLE_PREFIX.'user_email (';
                 $user_email .= 'user_id,';
@@ -207,9 +201,6 @@ class User
                 $user_email .= '"'.$parameters["parameters"]["email"].'")';    
 
                 $this->execQuery($user_email); 
-		error_log($user_email);
-		error_log("-----");
-		error_log("-----");
 
                 if(!empty($parameters["parameters"]["default_email_id"])){
                     $default_email_id = $parameters["parameters"]["default_email_id"];
@@ -282,7 +273,7 @@ class User
                 return $last_user_id;
                 
             } else {
-                throw new Exception("Something went wrong.".$string);    
+                throw new Exception("Something went wrong.");    
             }
         }        
 }

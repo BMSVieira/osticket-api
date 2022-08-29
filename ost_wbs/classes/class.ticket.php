@@ -193,10 +193,12 @@ class Ticket
             Helper::validRequest($validRequests);
 
             // Expected parameters
-            $expectedParameters = array("title", "subject", "user_id",  "priority_id", "status_id", "dept_id", "sla_id", "topic_id","internal_note","internal_note_subject");
+            $expectedParameters = array("title", "subject", "user_id",  "priority_id", "status_id", "dept_id", "sla_id", "topic_id");
+	    // These may be useful, but should be optional, as a way to add internal only info when creating ticket from CRM
+            $optionalParameters = array("priority_name", "internal_note","internal_note_subject");
 
             // Check if all paremeters are correct
-            Helper::checkRequest($parameters, $expectedParameters);
+            Helper::checkRequest($parameters, $expectedParameters, $optionalParameters);
 
                 // Prepare query
 
@@ -243,7 +245,7 @@ class Ticket
                 $ticket__cdata .= 'subject,';
                 $ticket__cdata .= 'priority) VALUES (';    
                 $ticket__cdata .= ''.$last_ticket_id.',';
-                $ticket__cdata .= '"'.utf8_decode($parameters["parameters"]["subject"]).'",';
+                $ticket__cdata .= '"'.utf8_decode($parameters["parameters"]["title"]).'",';
                 $ticket__cdata .= ''.$parameters["parameters"]["priority_id"].')';
 
                 // Send query to be executed
@@ -311,8 +313,8 @@ class Ticket
 			$fev.= ''.$last_form_entry.',';
 			$fev.= ''.$FormFields->id.',';
 			if($FormFields->name=='priority'){
-				$fev.= '"Normal",';
-				$fev.= '2)';    
+				$fev.= '"'.$parameters["parameters"]["priority_name"].'",';
+				$fev.= ''.$parameters["parameters"]["priority_id"].')';    
 			}elseif($FormFields->name=='subject'){
 				$fev.= '"'.utf8_decode($parameters["parameters"]["title"]).'",';
 				$fev.= 'null)';    
