@@ -4,11 +4,11 @@
 //error_reporting();
 
 // Database Credentials
-define('DBTYPE','');
-define('DBHOST','');
-define('DBNAME','');
-define('DBUSER','');
-define('DBPASS','');
+define('DBTYPE',''); // Database type (mysql, sql..)
+define('DBHOST',''); // IP Address
+define('DBNAME',''); // Database Name
+define('DBUSER',''); // Database User
+define('DBPASS',''); // Database Password
 
 // Table prefix
 define('TABLE_PREFIX','ost_');
