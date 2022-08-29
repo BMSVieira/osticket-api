@@ -195,7 +195,7 @@ class Ticket
             // Expected parameters
             $expectedParameters = array("title", "subject", "user_id",  "priority_id", "status_id", "dept_id", "sla_id", "topic_id");
 	    // These may be useful, but should be optional, as a way to add internal only info when creating ticket from CRM
-            $optionalParameters = array("priority_name", "internal_note","internal_note_subject");
+            $optionalParameters = array("form_id", "priority_name", "internal_note","internal_note_subject");
 
             // Check if all paremeters are correct
             Helper::checkRequest($parameters, $expectedParameters, $optionalParameters);
@@ -274,7 +274,7 @@ class Ticket
                 $form_entry .= 'object_type,';
                 $form_entry .= 'updated,';
                 $form_entry .= 'created) VALUES (';    
-                $form_entry .= '2,';
+                $form_entry .= '"'.$parameters["parameters"]["form_id"].'",';
                 $form_entry .= ''.$last_ticket_id.',';
                 $form_entry .= '"T",';
                 $form_entry .= 'now(),';    
@@ -294,14 +294,16 @@ class Ticket
 		$form_entry_values .= 'value_id) VALUES';
 
 		//Not sure how config/install specific these are, but, this is an attempt to get the priority and subject
-		//so that they can be populated. Other form fields are left null.
+		//so that they can be populated. Other form fields are left null. Since they are required fields, should work?
                 // table - 'form_entry'
                 $form_fields = 'select form_id, label, name, id from '.TABLE_PREFIX.'form_field where ';
-                $form_fields .= 'form_id = 2';    
+                $form_fields .= 'form_id = "'.$parameters["parameters"]["form_id"].'"';    
+
                 // Send query to be executed
 		$Dbobj = new DBConnection(); 
                 $mysqli = $Dbobj->getDBConnect();
                 $getForm = $mysqli->query($form_fields); 
+		error_log(var_dump($getForm,true));
 		    
 		$form_entry_value=array();
 		$fev=array();
