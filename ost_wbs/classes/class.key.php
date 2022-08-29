@@ -15,7 +15,7 @@ class apiKey
     {
 
         if($key) $this->key = $key;
-        if(strlen($key) != 32) { throw new Exception("Incorrect API Format, or else"); }
+        if(strlen($key) != 32) { throw new Exception("Incorrect API Format"); }
 
         // Connect Database
         // this wasn't being auto loaded? 
