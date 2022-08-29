@@ -100,7 +100,8 @@ class Helper
     }
 
     // Check parameters
-    static function checkRequest($parameters, $expectedParameters)
+    // Optional parameters added for flexibility in adding users etc
+    static function checkRequest($parameters, $expectedParameters, $optionalParameters=array())
     {
 
         // Error array 
@@ -111,21 +112,21 @@ class Helper
 
             // Check for empty fields
             foreach ($expectedParameters as $key => $value) {
-                if(empty($parameters["parameters"][$value])) {
-                    array_push($errors,"Empty or Incorrect fields were given.");
+                if(empty($parameters["parameters"][$value])&& !is_numeric($parameters["parameters"][$value])) {
+                    array_push($errors,"Empty or Incorrect fields were given. ".$key." ".$value);
                 }
             }
 
             // Check for unkown or unexpected fields
             foreach ($parameters["parameters"] as $key => $value) {
-                if (!in_array($key, $expectedParameters)) {
+                if (!in_array($key, $expectedParameters) && !in_array($key, $optionalParameters)) {
                     array_push($errors,"Unexpectec fields given.");
                 }
             }
 
             // If no errors, continue
             if(count($errors) > 0){
-                throw new Exception("Empty or Incorrect fields were given, read documentation for more info."); 
+                throw new Exception("Empty or Incorrect fields were given, read documentation for more info. ".var_export($errors,true));
             } 
 
         } else {

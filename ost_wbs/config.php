@@ -1,14 +1,14 @@
 <?php
 
 # Turn off all error reporting
-error_reporting();
+//error_reporting();
 
 // Database Credentials
-define('DBTYPE',''); // Database type (mysql, sql..)
-define('DBHOST',''); // IP Address
-define('DBNAME',''); // Database Name
-define('DBUSER',''); // Database User
-define('DBPASS',''); // Database Password
+define('DBTYPE','');
+define('DBHOST','');
+define('DBNAME','');
+define('DBUSER','');
+define('DBPASS','');
 
 // Table prefix
 define('TABLE_PREFIX','ost_');

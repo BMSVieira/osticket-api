@@ -33,13 +33,13 @@ class OSTicketAPI
         // Body
         $requestBody = json_decode(file_get_contents('php://input'), true);
             
-            // Request Data
-            $classe = ucfirst($requestBody['query']);
-            $method = $requestBody['condition'];
+        // Request Data
+        $classe = ucfirst($requestBody['query']);
+        $method = $requestBody['condition'];
 
-            // Sort & Parameters
-            if (isset($requestBody['sort'])) { $sort = $requestBody['sort']; } else { $sort = null; }
-            if (isset($requestBody['parameters'])) { $parameters = $requestBody['parameters']; } else { $parameters = null; }
+        // Sort & Parameters
+        if (isset($requestBody['sort'])) { $sort = $requestBody['sort']; } else { $sort = null; }
+        if (isset($requestBody['parameters'])) { $parameters = $requestBody['parameters']; } else { $parameters = null; }
 
         // Final Parameters
         $fparams = array("sort" => $sort, "parameters" => $parameters);

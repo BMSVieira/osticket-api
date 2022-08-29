@@ -15,10 +15,12 @@ class apiKey
     {
 
         if($key) $this->key = $key;
-        if(strlen($key) != 32) { throw new Exception("Incorrect API Format"); }
+        if(strlen($key) != 32) { throw new Exception("Incorrect API Format, or else"); }
 
         // Connect Database
-        $Dbobj = new DBConnection(); 
+        // this wasn't being auto loaded? 
+        require_once 'classes/class.dbconnection.php';
+        $Dbobj = new DBConnection; 
         $mysqli = $Dbobj->getDBConnect();
 
         // Check API Key
