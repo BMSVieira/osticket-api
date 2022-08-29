@@ -1,7 +1,7 @@
 <?php
 
 # Turn off all error reporting
-//error_reporting();
+error_reporting();
 
 // Database Credentials
 define('DBTYPE',''); // Database type (mysql, sql..)
