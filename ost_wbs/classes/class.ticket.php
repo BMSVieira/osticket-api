@@ -72,7 +72,7 @@ class Ticket
                     $endDate = $parameters['parameters']['end_date'];
 
                     // Query
-                    $getTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."ticket INNER JOIN ".TABLE_PREFIX."ticket__cdata ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."ticket__cdata.ticket_id INNER JOIN ".TABLE_PREFIX."thread_entry ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."thread_entry.thread_id WHERE ".TABLE_PREFIX."ticket.lastupdate >= '$startDate' and ".TABLE_PREFIX."ticket.lastupdate <= '$endDate'");
+                    $getTickets = $mysqli->query("SELECT * FROM ".TABLE_PREFIX."ticket INNER JOIN ".TABLE_PREFIX."ticket__cdata ON ".TABLE_PREFIX."ticket.ticket_id = ".TABLE_PREFIX."ticket__cdata.ticket_id INNER JOIN ".TABLE_PREFIX."thread ON ".TABLE_PREFIX."thread.object_id = ".TABLE_PREFIX."ticket.ticket_id INNER JOIN ".TABLE_PREFIX."thread_entry ON ".TABLE_PREFIX."thread.id = ".TABLE_PREFIX."thread_entry.thread_id WHERE ".TABLE_PREFIX."ticket.lastupdate >= '$startDate' and ".TABLE_PREFIX."ticket.lastupdate <= '$endDate'");
 
                 break;
                 // Sorte by Status
