@@ -2,6 +2,7 @@
 
 class Ticket 
 {
+        // ticket_id | ticket_pid | number | user_id | user_email_id | status_id | dept_id | sla_id | topic_id | staff_id | team_id | email_id | lock_id | flags | sort | subject | title | body | ip_address | source | source_extra | isoverdue | isanswered | duedate | est_duedate | reopened | closed | lastupdate | created | updated
         function compileResults($result)
         {
             return array(
