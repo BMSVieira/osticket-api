@@ -18,7 +18,9 @@ class apiKey
         if(strlen($key) != 32) { throw new Exception("Incorrect API Format"); }
 
         // Connect Database
-        $Dbobj = new DBConnection(); 
+        // this wasn't being auto loaded? 
+        require_once 'classes/class.dbconnection.php';
+        $Dbobj = new DBConnection; 
         $mysqli = $Dbobj->getDBConnect();
 
         // Check API Key

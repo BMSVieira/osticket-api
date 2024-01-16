@@ -205,15 +205,17 @@ class Ticket
 
             // Expected parameters
             $expectedParameters = array("title", "subject", "user_id",  "priority_id", "status_id", "dept_id", "sla_id", "topic_id");
+	    // These may be useful, but should be optional, as a way to add internal only info when creating ticket from CRM
+            $optionalParameters = array("form_id", "priority_name", "internal_note","internal_note_subject");
 
             // Check if all paremeters are correct
-            Helper::checkRequest($parameters, $expectedParameters);
+            Helper::checkRequest($parameters, $expectedParameters, $optionalParameters);
 
                 // Prepare query
 
                 $last_ticket_id = Helper::get_last_id("ticket", "ticket_id");
                 $ticket_number = $last_ticket_id+1;
-                $ticker_number = "API".$ticket_number;
+                $ticker_number = "TK".$ticket_number;
 
                 // table - 'ticket'
                 $ticket = 'insert into '.TABLE_PREFIX.'ticket (';
@@ -254,7 +256,7 @@ class Ticket
                 $ticket__cdata .= 'subject,';
                 $ticket__cdata .= 'priority) VALUES (';    
                 $ticket__cdata .= ''.$last_ticket_id.',';
-                $ticket__cdata .= '"'.utf8_decode($parameters["parameters"]["subject"]).'",';
+                $ticket__cdata .= '"'.utf8_decode($parameters["parameters"]["title"]).'",';
                 $ticket__cdata .= ''.$parameters["parameters"]["priority_id"].')';
 
                 // Send query to be executed
@@ -275,6 +277,73 @@ class Ticket
                 // Get inserted thread ID
                 $last_thread_id = Helper::get_last_id("thread", "id");
 
+		//not sure if form 2 is commonly or universally a good choice, but it is the default in our installs.
+                // table - 'form_entry'
+                $form_entry = 'insert into '.TABLE_PREFIX.'form_entry (';
+                $form_entry .= 'form_id,';
+                $form_entry .= 'object_id,';
+                $form_entry .= 'object_type,';
+                $form_entry .= 'updated,';
+                $form_entry .= 'created) VALUES (';    
+                $form_entry .= '"'.$parameters["parameters"]["form_id"].'",';
+                $form_entry .= ''.$last_ticket_id.',';
+                $form_entry .= '"T",';
+                $form_entry .= 'now(),';    
+                $form_entry .= 'now())';    
+
+                // Send query to be executed
+                $this->execQuery($form_entry); 
+
+                // Get inserted thread ID and increment for form values
+                $last_form_entry= Helper::get_last_id("form_entry", "id");
+
+                // table - 'form_entry_values'
+                $form_entry_values = 'insert into '.TABLE_PREFIX.'form_entry_values (';
+                $form_entry_values .= 'entry_id,';
+                $form_entry_values .= 'field_id,';
+                $form_entry_values .= 'value,';
+		$form_entry_values .= 'value_id) VALUES';
+
+		//Not sure how config/install specific these are, but, this is an attempt to get the priority and subject
+		//so that they can be populated. Other form fields are left null. Since they are required fields, should work?
+                // table - 'form_entry'
+                $form_fields = 'select form_id, label, name, id from '.TABLE_PREFIX.'form_field where ';
+                $form_fields .= 'form_id = "'.$parameters["parameters"]["form_id"].'"';    
+
+                // Send query to be executed
+		$Dbobj = new DBConnection(); 
+                $mysqli = $Dbobj->getDBConnect();
+                $getForm = $mysqli->query($form_fields); 
+		error_log(var_dump($getForm,true));
+		    
+		$form_entry_value=array();
+		$fev=array();
+		// Fetch data
+		while($FormFields= $getForm->fetch_object())
+		{
+		//build the query to add subject and priority, and null for other form_field_values
+			$fev= '(';    
+			$fev.= ''.$last_form_entry.',';
+			$fev.= ''.$FormFields->id.',';
+			if($FormFields->name=='priority'){
+				$fev.= '"'.$parameters["parameters"]["priority_name"].'",';
+				$fev.= ''.$parameters["parameters"]["priority_id"].')';    
+			}elseif($FormFields->name=='subject'){
+				$fev.= '"'.utf8_decode($parameters["parameters"]["title"]).'",';
+				$fev.= 'null)';    
+			}else{
+				$fev.= 'null,';
+				$fev.= 'null)';    
+			}
+			$form_entry_value[]=$fev;    
+		}
+		$form_entry_values.=implode(", ",$form_entry_value);
+                // Send query to be executed
+                $this->execQuery($form_entry_values); 
+
+
+                // Get inserted thread ID
+                $last_thread_id = Helper::get_last_id("thread", "id");
                 // table - 'thread_entry'
                 $thread_entry = 'insert into '.TABLE_PREFIX.'thread_entry (';
                 $thread_entry .= 'format,';
@@ -307,7 +376,48 @@ class Ticket
                 $thread_entry .= 'now())';
 
                 // Send query to be executed
-                return $this->execQuery($thread_entry);   
+                $thread = $this->execQuery($thread_entry);   
+                
+		//From our CRM, it is useful to add an internal note via API. If this optional data is supplied, add note here.
+                if($parameters["parameters"]["internal_note"]!=""){
+                    $last_thread_id = Helper::get_last_id("thread", "id");
+                    // table - 'thread_entry'
+                    $thread_entry = 'insert into '.TABLE_PREFIX.'thread_entry (';
+                    $thread_entry .= 'format,';
+                    $thread_entry .= 'ip_address,';
+                    $thread_entry .= 'pid,';
+                    $thread_entry .= 'thread_id,';
+                    $thread_entry .= 'staff_id,';
+                    $thread_entry .= 'user_id,';                
+                    $thread_entry .= 'type,';
+                    $thread_entry .= 'poster,';
+                    $thread_entry .= 'flags,';
+                    $thread_entry .= 'source,';
+                    $thread_entry .= 'title,';
+                    $thread_entry .= 'body,';
+                    $thread_entry .= 'created,';
+                    $thread_entry .= 'updated) VALUES (';
+                    $thread_entry .= '"html",';  
+                    $thread_entry .= '0,';  
+                    $thread_entry .= '0,';
+                    $thread_entry .= ''.$last_thread_id.',';
+                    $thread_entry .= '0,';
+                    $thread_entry .= ''.$parameters["parameters"]["user_id"].',';
+                    $thread_entry .= '"N",';
+                    $thread_entry .= '"osTicket Support",';
+                    $thread_entry .= '65,';
+                    $thread_entry .= '"API",';
+                    $thread_entry .= '"'.utf8_decode($parameters["parameters"]["internal_note_subject"]).'",';
+                    $thread_entry .= '"<p>'.utf8_decode($parameters["parameters"]["internal_note"]).'</p>",';
+                    $thread_entry .= 'now(),';    
+                    $thread_entry .= 'now())';
+
+                    // Send query to be executed
+                    $internal_note = $this->execQuery($thread_entry);   
+                
+                    return $internal_note;
+                }
+                return $thread;
         }
 
         public function reply($parameters)

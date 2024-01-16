@@ -108,7 +108,9 @@ class User
             {
                     array_push($result,
                         array(
-                            'user_id'=>$PrintUsers->id,
+				//this seemed to be returning "id" rather than "user_id"? Adding / changing to include both id and user_id...
+                            'user_id'=>$PrintUsers->user_id,
+                            'id'=>$PrintUsers->id,
                             'name'=>utf8_encode($PrintUsers->name),
                             'created'=>$PrintUsers->created
                       ));     
@@ -137,10 +139,18 @@ class User
             Helper::validRequest($validRequests);
 
             // Expected parameters
-            $expectedParameters = array("name", "email", "password", "timezone", "phone", "org_id", "default_email_id", "status");
+            $expectedParameters = array("name", "email", "org_id", "status");
+
+	    // Optional parameters are used to be able to create a user account / login for the customer.
+	    // We needed this from our CRM, to be able
+	    // to automatically create a user if one was not found. 
+            $optionalParameters = array("default_email_id", "password", "timezone", "phone");
+
+	    //this needs to be updated later, bit of a catch 22 with required fields
+            $default_email_id=0;
 
             // Check if all paremeters are correct
-            Helper::checkRequest($parameters, $expectedParameters);
+            Helper::checkRequest($parameters, $expectedParameters, $optionalParameters);
 
                 // Escape parameters
                 $parameters['parameters'] = Helper::escapeParameters($parameters["parameters"]);
@@ -157,7 +167,7 @@ class User
                 $user .= 'created,';
                 $user .= 'updated) VALUES ('; 
                 $user .= ''.$parameters["parameters"]["org_id"].',';
-                $user .= ''.$parameters["parameters"]["default_email_id"].',';
+                $user .= ''.$default_email_id.',';
                 $user .= ''.$parameters["parameters"]["status"].',';
                 $user .= '"'.$parameters["parameters"]["name"].'",';                
                 $user .= 'now(),';    
@@ -190,24 +200,42 @@ class User
                 $user_email .= ''.$last_user_id.',';
                 $user_email .= '"'.$parameters["parameters"]["email"].'")';    
 
-                // Send query to be executed
-                $this->execQuery($user_email);    
+                $this->execQuery($user_email); 
 
-                // table - 'ost_user_account'
-                $user_account = 'insert into '.TABLE_PREFIX.'user_account (';
-                $user_account .= 'user_id,';
-                $user_account .= 'status,';
-                $user_account .= 'timezone,';
-                $user_account .= 'passwd,';
-                $user_account .= 'registered) VALUES ('; 
-                $user_account .= ''.$last_user_id.', ';
-                $user_account .= '1, ';
-                $user_account .= '"'.$parameters["parameters"]["timezone"].'", ';
-                $user_account .= '"'.$parameters["parameters"]["password"].'", ';   
-                $user_account .= 'now())';      
+                if(!empty($parameters["parameters"]["default_email_id"])){
+                    $default_email_id = $parameters["parameters"]["default_email_id"];
+                }else{
+                    $default_email_id = Helper::get_last_id("user_email", "id");
+                }
 
+
+                // table - 'user', this corrects the default_email_id
+                $user_update = 'update '.TABLE_PREFIX.'user set ';
+                $user_update .= 'default_email_id = "'.$default_email_id.'"';
+                $user_update .= 'where id = "'.$last_user_id.'"';
                 // Send query to be executed
-                return $this->execQuery($user_account);  
+                $user_updated=$this->execQuery($user_update);    
+
+                if(!empty($parameters["parameters"]["password"]) && !empty($parameters["parameters"]["timezone"])){
+                    // table - 'ost_user_account'
+                    // must have user encoded password
+                    $last_user_email_id = Helper::get_last_id("user_email", "id");
+                    $user_account = 'insert into '.TABLE_PREFIX.'user_account (';
+                    $user_account .= 'user_id,';
+                    $user_account .= 'status,';
+                    $user_account .= 'timezone,';
+                    $user_account .= 'passwd,';
+                    $user_account .= 'registered) VALUES ('; 
+                    $user_account .= ''.$last_user_email_id.', ';
+                    $user_account .= '1, ';
+                    $user_account .= '"'.$parameters["parameters"]["timezone"].'", ';
+                    $user_account .= '"'.$parameters["parameters"]["password"].'", ';   
+                    $user_account .= 'now())';      
+		    // Send query to be executed
+		    return $this->execQuery($user_account);  
+                }
+		return $user_updated;
+
 
         }
 
